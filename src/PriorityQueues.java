@@ -10,7 +10,8 @@ public class PriorityQueues {
         minPQ.add(15);
         minPQ.add(20);
         minPQ.add(25);
-        System.out.println("Peeking min heap gives the min " + minPQ.peek());
+//        System.out.println("Peeking min heap gives the min " + minPQ.peek());
+
         //adding Collections.reverseOrder() makes it use max-heap
         PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Collections.reverseOrder());
         maxPQ.add(5);
@@ -18,6 +19,9 @@ public class PriorityQueues {
         maxPQ.add(15);
         maxPQ.add(20);
         maxPQ.add(25);
+//        System.out.println(maxPQ);
+        maxPQ.remove(10);
+        System.out.println(maxPQ);
         System.out.println("Peeking max heap gives the max " + maxPQ.poll());
 
     }
