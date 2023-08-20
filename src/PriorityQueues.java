@@ -16,11 +16,12 @@ public class PriorityQueues {
         PriorityQueue<Integer> maxPQ = new PriorityQueue<>(Collections.reverseOrder());
         maxPQ.add(5);
         maxPQ.add(10);
-        maxPQ.add(15);
         maxPQ.add(20);
         maxPQ.add(25);
-//        System.out.println(maxPQ);
+        System.out.println(maxPQ);
         maxPQ.remove(10);
+        System.out.println(maxPQ);
+        maxPQ.remove(45);
         System.out.println(maxPQ);
         System.out.println("Peeking max heap gives the max " + maxPQ.poll());
 
