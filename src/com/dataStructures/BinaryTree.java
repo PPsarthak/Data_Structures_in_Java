@@ -32,6 +32,21 @@ class BinaryTree {
         preOrder(root.right);
     }
 
+    //iterative preorder traversal
+    public static List<Integer> preOrderIt(Node root){
+        List<Integer> preOrder = new ArrayList<>();
+        Stack<Node> myStack = new Stack<>();
+        if (root == null) return preOrder;
+        myStack.push(root);
+        Node temp = null;
+        while(!myStack.isEmpty()){
+            temp = myStack.pop();
+            preOrder.add(temp.value);
+            if(temp.right!=null) myStack.push(temp.right);
+            if(temp.left!=null) myStack.push(temp.left);
+        }
+        return preOrder;
+    }
     public static void inOrder(Node root){
         if(root == null) return;
         inOrder(root.left);
@@ -45,6 +60,56 @@ class BinaryTree {
         postOrder(root.right);
         System.out.print(root.value + " ");
     }
+
+    //iterative post order traversal
+    public static List<Integer> postOrderIt2(Node root){
+        List<Integer> postOrder = new ArrayList<>();
+        Stack<Node> myStack  = new Stack<>();
+        Stack<Integer> myStack2  = new Stack<>();
+        if(root == null) return postOrder;
+        myStack.push(root);
+        Node temp = null;
+        while(!myStack.isEmpty()){
+            temp = myStack.pop();
+            myStack2.push(temp.value);
+            if(temp.left!=null) myStack.push(temp.left);
+            if(temp.right!=null) myStack.push(temp.right);
+        }
+        while (!myStack2.isEmpty()) postOrder.add(myStack2.pop());
+        return postOrder;
+    }
+
+    //iterative post order using 1 stack
+    public static List<Integer> postOrderIt1(Node root) {
+        List<Integer> postOrder = new ArrayList<>();
+        Stack<Node> myStack = new Stack<>();
+
+        if (root == null)
+            return postOrder;
+
+        Node current = root;
+        Node lastVisited = null;
+
+        while (!myStack.isEmpty() || current != null) {
+            if (current != null) {
+                myStack.push(current);
+                current = current.left;
+            } else {
+                Node peekNode = myStack.peek();
+
+                if (peekNode.right != null && lastVisited != peekNode.right) {
+                    current = peekNode.right;
+                } else {
+                    myStack.pop();
+                    postOrder.add(peekNode.value);
+                    lastVisited = peekNode;
+                }
+            }
+        }
+
+        return postOrder;
+    }
+
     //better approach for BFS traversal
     public static List<List<Integer>> levelOrder2(Node root){
         Queue<Node> q = new LinkedList<>();
@@ -136,10 +201,11 @@ class BinaryTree {
     public static void main(String[] args) {
         int[] myArr = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
         Node root = buildTree(myArr);
-        levelOrder(root);
-        System.out.println(levelOrder2(root));
-//        System.out.println(sumNodes(root));
-//        System.out.println(getHeight(root));
+        //don't change above code
+        postOrder(root);
+        System.out.println(postOrderIt2(root));
+        System.out.println(postOrderIt1(root));
+
     }
 }
 
