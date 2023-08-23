@@ -25,5 +25,7 @@ public class PriorityQueues {
         System.out.println(maxPQ);
         System.out.println("Peeking max heap gives the max " + maxPQ.poll());
 
+
+
     }
 }

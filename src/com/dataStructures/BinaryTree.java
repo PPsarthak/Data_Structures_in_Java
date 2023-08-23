@@ -45,7 +45,28 @@ class BinaryTree {
         postOrder(root.right);
         System.out.print(root.value + " ");
     }
-
+    //better approach for BFS traversal
+    public static List<List<Integer>> levelOrder2(Node root){
+        Queue<Node> q = new LinkedList<>();
+        List<List<Integer>> levelOrderList = new ArrayList<>();
+        if(root == null) return levelOrderList;
+        q.offer(root);
+        while (!q.isEmpty()){
+            int level = q.size();
+            List<Integer> myList = new ArrayList<>();
+            for (int i = 0; i < level; i++) {
+                if(q.peek().left!=null){
+                    q.offer(q.peek().left);
+                }
+                if(q.peek().right!=null){
+                    q.offer(q.peek().right);
+                }
+                myList.add(q.poll().value);
+            }
+            levelOrderList.add(myList);
+        }
+        return levelOrderList;
+    }
     public static void levelOrder(Node root){
         Queue<Node> myQ = new LinkedList<>();
         if(root == null) return;
@@ -116,8 +137,9 @@ class BinaryTree {
         int[] myArr = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
         Node root = buildTree(myArr);
         levelOrder(root);
-        System.out.println(sumNodes(root));
-        System.out.println(getHeight(root));
+        System.out.println(levelOrder2(root));
+//        System.out.println(sumNodes(root));
+//        System.out.println(getHeight(root));
     }
 }
 
