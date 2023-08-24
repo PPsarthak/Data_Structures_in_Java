@@ -54,6 +54,27 @@ class BinaryTree {
         inOrder(root.right);
     }
 
+    //iterative inorder traversal
+    public static List<Integer> inOrderIt(Node root){
+        List<Integer> inorder = new ArrayList<>();
+        Stack<Node> myStack = new Stack<>();
+        if(root == null) return inorder;
+        myStack.push(root);
+        Node temp = root.left;
+        while (true){
+            if(temp!=null){
+                myStack.push(temp);
+                temp = temp.left;
+            }
+            else{
+                if(myStack.isEmpty()) break;
+                temp = myStack.pop();
+                inorder.add(temp.value);
+                temp = temp.right;
+            }
+        }
+        return inorder;
+    }
     public static void postOrder(Node root){
         if(root == null) return;
         postOrder(root.left);
@@ -202,9 +223,8 @@ class BinaryTree {
         int[] myArr = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
         Node root = buildTree(myArr);
         //don't change above code
-        postOrder(root);
-        System.out.println(postOrderIt2(root));
-        System.out.println(postOrderIt1(root));
+        inOrder(root);
+        System.out.println(inOrderIt(root));
 
     }
 }
