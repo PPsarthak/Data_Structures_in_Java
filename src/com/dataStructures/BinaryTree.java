@@ -173,6 +173,13 @@ class BinaryTree {
         }
     }
 
+    static int balancedTree(Node root){
+        if(root == null) return 0;
+        int leftTree = balancedTree(root.left);
+        int rightTree = balancedTree(root.right);
+        if(leftTree == -1 || rightTree == -1 ||Math.abs(leftTree-rightTree)>1) return -1;
+        return Math.max(leftTree, rightTree) + 1;
+    }
     public static int countNodes(Node root){
         if (root == null){
             return 0;
