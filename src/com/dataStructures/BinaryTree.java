@@ -173,6 +173,47 @@ class BinaryTree {
         }
     }
 
+    static List<Integer> boundaryTraversal(Node root){
+        List<Integer> myList = new ArrayList<>();
+        myList.add(root.value);
+        if(isLeaf(root)){
+            return myList;
+        }
+        addLeftNodes(root.left, myList);
+        addLeafNodes(root, myList);
+        addRightNodes(root.right, myList);
+        return myList;
+    }
+    static void addLeftNodes(Node root, List<Integer> myList){
+        while(root!=null){
+            if(!isLeaf(root)) myList.add(root.value);
+            else return;
+            if(root.left!=null) root = root.left;
+            else root = root.right;
+        }
+    }
+    static void addLeafNodes(Node root, List<Integer> myList){
+        if(isLeaf(root)){
+            myList.add(root.value);
+            return;
+        }
+        if(root.left!=null) addLeftNodes(root.left, myList);
+        if(root.right!=null) addLeafNodes(root.right, myList);
+    }
+    static void addRightNodes(Node root, List<Integer> myList){
+        Stack<Integer> myStack = new Stack<>();
+        while (root!=null){
+            if(!isLeaf(root)) myStack.push(root.value);
+            if(root.right!=null) root = root.right;
+            else root = root.left;
+        }
+        while (!myStack.isEmpty()){
+            myList.add(myStack.pop());
+        }
+    }
+    static boolean isLeaf(Node root){
+        return root.left == null && root.right == null;
+    }
     static int balancedTree(Node root){
         if(root == null) return 0;
         int leftTree = balancedTree(root.left);
@@ -180,6 +221,7 @@ class BinaryTree {
         if(leftTree == -1 || rightTree == -1 ||Math.abs(leftTree-rightTree)>1) return -1;
         return Math.max(leftTree, rightTree) + 1;
     }
+
     public static int countNodes(Node root){
         if (root == null){
             return 0;
@@ -212,6 +254,7 @@ class BinaryTree {
         if(subRoot == null) return true;
         if(root == null) return false;
         if(root.value == subRoot.value){
+            if(subRoot.left == null && subRoot.right == null) return true;
             return isIdentical(root, subRoot);
         }
         return subTree(root.left, subRoot) || subTree(root.right, subRoot);
