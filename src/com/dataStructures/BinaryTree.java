@@ -15,7 +15,7 @@ class BinaryTree {
         }
     }
     static int index = -1;
-    public static Node buildTree(int[] nodes){
+    static Node buildTree(int[] nodes){
         index++;
         if(nodes[index]==-1) return null;
         Node root;
@@ -24,16 +24,39 @@ class BinaryTree {
         root.right = buildTree(nodes);
         return root;
     }
+    static Node constructTree(Integer[] array) {
+        if (array == null || array.length == 0) {
+            return null;
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        Node root = new Node(array[0]);
+        queue.offer(root);
+
+        for (int i = 1; i < array.length; i++) {
+            Node parent = queue.poll();
+            if (array[i] != null) {
+                parent.left = new Node(array[i]);
+                queue.offer(parent.left);
+            }
+            i++;
+            if (i < array.length && array[i] != null) {
+                parent.right = new Node(array[i]);
+                queue.offer(parent.right);
+            }
+        }
+
+        return root;
+    }
     //Time Complexity for any traversal = O(n)
-    public static void preOrder(Node root){
+    static void preOrder(Node root){
         if(root == null) return;
         System.out.print(root.value + " ");
         preOrder(root.left);
         preOrder(root.right);
     }
-
     //iterative preorder traversal
-    public static List<Integer> preOrderIt(Node root){
+    static List<Integer> preOrderIt(Node root){
         List<Integer> preOrder = new ArrayList<>();
         Stack<Node> myStack = new Stack<>();
         if (root == null) return preOrder;
@@ -47,15 +70,14 @@ class BinaryTree {
         }
         return preOrder;
     }
-    public static void inOrder(Node root){
+    static void inOrder(Node root){
         if(root == null) return;
         inOrder(root.left);
         System.out.print(root.value + " ");
         inOrder(root.right);
     }
-
     //iterative inorder traversal
-    public static List<Integer> inOrderIt(Node root){
+    static List<Integer> inOrderIt(Node root){
         List<Integer> inorder = new ArrayList<>();
         Stack<Node> myStack = new Stack<>();
         if(root == null) return inorder;
@@ -75,15 +97,14 @@ class BinaryTree {
         }
         return inorder;
     }
-    public static void postOrder(Node root){
+    static void postOrder(Node root){
         if(root == null) return;
         postOrder(root.left);
         postOrder(root.right);
         System.out.print(root.value + " ");
     }
-
     //iterative post order traversal
-    public static List<Integer> postOrderIt2(Node root){
+    static List<Integer> postOrderIt2(Node root){
         List<Integer> postOrder = new ArrayList<>();
         Stack<Node> myStack  = new Stack<>();
         Stack<Integer> myStack2  = new Stack<>();
@@ -99,9 +120,8 @@ class BinaryTree {
         while (!myStack2.isEmpty()) postOrder.add(myStack2.pop());
         return postOrder;
     }
-
     //iterative post order using 1 stack
-    public static List<Integer> postOrderIt1(Node root) {
+    static List<Integer> postOrderIt1(Node root) {
         List<Integer> postOrder = new ArrayList<>();
         Stack<Node> myStack = new Stack<>();
 
@@ -130,9 +150,8 @@ class BinaryTree {
 
         return postOrder;
     }
-
     //better approach for BFS traversal
-    public static List<List<Integer>> levelOrder2(Node root){
+    static List<List<Integer>> levelOrder2(Node root){
         Queue<Node> q = new LinkedList<>();
         List<List<Integer>> levelOrderList = new ArrayList<>();
         if(root == null) return levelOrderList;
@@ -153,7 +172,7 @@ class BinaryTree {
         }
         return levelOrderList;
     }
-    public static void levelOrder(Node root){
+    static void levelOrder(Node root){
         Queue<Node> myQ = new LinkedList<>();
         if(root == null) return;
         myQ.add(root);
@@ -172,7 +191,30 @@ class BinaryTree {
             }
         }
     }
-
+    static List<List<Integer>> zigzag(Node root){
+        Queue<Node> q = new LinkedList<>();
+        List<List<Integer>> zigzagList = new ArrayList<>();
+        if(root == null) return zigzagList;
+        boolean leftRight = true;
+        q.offer(root);
+        while (!q.isEmpty()){
+            int size = q.size();
+            List<Integer> myList = new Vector<>();
+            for (int i = 0; i < size; i++) {
+                if(q.peek().left!=null){
+                    q.offer(q.peek().left);
+                }
+                if(q.peek().right!=null){
+                    q.offer(q.peek().right);
+                }
+                int idx = leftRight ? i : (size-i-1);
+                myList.set(idx, q.poll().value);
+            }
+            leftRight = !leftRight;
+            zigzagList.add(myList);
+        }
+        return zigzagList;
+    }
     static List<Integer> boundaryTraversal(Node root){
         List<Integer> myList = new ArrayList<>();
         myList.add(root.value);
@@ -221,8 +263,7 @@ class BinaryTree {
         if(leftTree == -1 || rightTree == -1 ||Math.abs(leftTree-rightTree)>1) return -1;
         return Math.max(leftTree, rightTree) + 1;
     }
-
-    public static int countNodes(Node root){
+    static int countNodes(Node root){
         if (root == null){
             return 0;
         }
@@ -230,8 +271,7 @@ class BinaryTree {
         int rightNodes = countNodes(root.right);
         return leftNodes + rightNodes + 1;
     }
-
-    public static int sumNodes(Node root){
+    static int sumNodes(Node root){
         if (root == null){
             return 0;
         }
@@ -239,8 +279,7 @@ class BinaryTree {
         int rightSum = sumNodes(root.right);
         return leftSum + rightSum + root.value;
     }
-
-    public static int getHeight(Node root){
+    static int getHeight(Node root){
         if (root == null){
             return 0;
         }
@@ -249,8 +288,7 @@ class BinaryTree {
 
         return Math.max(leftHeight,rightHeight)+1;
     }
-
-    public static boolean subTree(Node root, Node subRoot){
+    static boolean subTree(Node root, Node subRoot){
         if(subRoot == null) return true;
         if(root == null) return false;
         if(root.value == subRoot.value){
@@ -259,7 +297,6 @@ class BinaryTree {
         }
         return subTree(root.left, subRoot) || subTree(root.right, subRoot);
     }
-
     private static boolean isIdentical(Node root, Node subRoot){
         if (root == null && subRoot == null) return true;
         if (root == null || subRoot == null) return false;
@@ -268,10 +305,9 @@ class BinaryTree {
         }
         return false;
     }
-
     public static void main(String[] args) {
-        int[] myArr = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1,-1};
-        Node root = buildTree(myArr);
+        Integer[] myArr = {3,9,20,null,null,15,7};
+        Node root = constructTree(myArr);
         //don't change above code
         inOrder(root);
         System.out.println(inOrderIt(root));
