@@ -214,6 +214,35 @@ class BinaryTree {
         }
         return zigzagList;
     }
+    private static class topViewPair{
+        Node node;
+        int level;
+        topViewPair(Node root, int level){
+            this.node = root;
+            this.level = level;
+        }
+    }
+    static List<Integer> topView(Node root){
+        List<Integer> topViewList = new ArrayList<>();
+        if(root == null) return topViewList;
+        Map<Integer, Integer> myMap = new TreeMap<>();
+        Queue<topViewPair> q = new LinkedList<>();
+        q.offer(new topViewPair(root, 0));
+        while (!q.isEmpty()){
+            topViewPair n = q.poll();
+            Node temp = n.node;
+            int lvl = n.level;
+            if(!myMap.containsKey(lvl)){
+                myMap.put(lvl, temp.value);
+            }
+            if(temp.left!=null) q.offer(new topViewPair(temp.left, lvl-1));
+            if(temp.right!=null) q.offer(new topViewPair(temp.right, lvl+1));
+        }
+        for(Integer i : myMap.keySet()){
+            topViewList.add(myMap.get(i));
+        }
+        return topViewList;
+    }
     static List<Integer> boundaryTraversal(Node root){
         List<Integer> myList = new ArrayList<>();
         myList.add(root.value);
@@ -261,6 +290,23 @@ class BinaryTree {
         int rightTree = balancedTree(root.right);
         if(leftTree == -1 || rightTree == -1 ||Math.abs(leftTree-rightTree)>1) return -1;
         return Math.max(leftTree, rightTree) + 1;
+    }
+    static int countOfK = 0;
+    static int kthSmallestEle = 0;
+    static int kthSmallest(Node root, int k) {
+        countOfK = k;
+        getK(root);
+        return kthSmallestEle;
+    }
+    static void getK(Node root){
+        if(root == null) return;
+        getK(root.left);
+        countOfK--;
+        if(countOfK == 0){
+            kthSmallestEle = root.value;
+            return;
+        }
+        getK(root.right);
     }
     static int countNodes(Node root){
         if (root == null){
