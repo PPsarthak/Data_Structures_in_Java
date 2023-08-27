@@ -197,18 +197,17 @@ class BinaryTree {
         if(root == null) return zigzagList;
         boolean leftRight = true;
         q.offer(root);
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             int size = q.size();
-            List<Integer> myList = new Vector<>();
+            List<Integer> myList = new Vector<>(size); // Initialize Vector with the appropriate size
             for (int i = 0; i < size; i++) {
-                if(q.peek().left!=null){
-                    q.offer(q.peek().left);
+                if(q.peek().left!=null) q.offer(q.peek().left);
+                if(q.peek().right!=null) q.offer(q.peek().right);
+                if (leftRight) {
+                    myList.add(q.poll().value);
+                } else {
+                    myList.add(0, q.poll().value); // Add to the beginning for reverse order
                 }
-                if(q.peek().right!=null){
-                    q.offer(q.peek().right);
-                }
-                int idx = leftRight ? i : (size-i-1);
-                myList.set(idx, q.poll().value);
             }
             leftRight = !leftRight;
             zigzagList.add(myList);
@@ -311,7 +310,7 @@ class BinaryTree {
         //don't change above code
         inOrder(root);
         System.out.println(inOrderIt(root));
-
+        System.out.println(zigzag(root));
     }
 }
 
