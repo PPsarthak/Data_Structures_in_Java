@@ -286,8 +286,8 @@ class BinaryTree {
             myMap.get(ver).get(hor).offer(v.node.value);
             //executed in 2 cases: when new entry is added no PQ must be filled
             // or when both statements are not executed, and we need to append new value
-            if(v.node.left!=null) q.offer(new verticalOrderPair(root.left, ver-1, hor+1));
-            if(v.node.right!=null) q.offer(new verticalOrderPair(root.right, ver+1, hor+1));
+            if(v.node.left!=null) q.offer(new verticalOrderPair(v.node.left, ver-1, hor+1));
+            if(v.node.right!=null) q.offer(new verticalOrderPair(v.node.right, ver+1, hor+1));
 
         }
         for(TreeMap<Integer, PriorityQueue<Integer>> i : myMap.values()){
