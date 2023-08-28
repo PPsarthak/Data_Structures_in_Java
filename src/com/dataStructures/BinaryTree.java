@@ -214,6 +214,7 @@ class BinaryTree {
         }
         return zigzagList;
     }
+    //only used for topView of binary tree
     private static class topViewPair{
         Node node;
         int level;
@@ -229,19 +230,76 @@ class BinaryTree {
         Queue<topViewPair> q = new LinkedList<>();
         q.offer(new topViewPair(root, 0));
         while (!q.isEmpty()){
+            //getting the front of the q - destructuring node and level
             topViewPair n = q.poll();
             Node temp = n.node;
             int lvl = n.level;
+            //if that level is not present, add it to map
             if(!myMap.containsKey(lvl)){
                 myMap.put(lvl, temp.value);
             }
+            //adding the left and right children, with proper levels
             if(temp.left!=null) q.offer(new topViewPair(temp.left, lvl-1));
             if(temp.right!=null) q.offer(new topViewPair(temp.right, lvl+1));
         }
+        //adding the nodes in the list in sorted manner
         for(Integer i : myMap.keySet()){
             topViewList.add(myMap.get(i));
         }
         return topViewList;
+    }
+    private static class verticalOrderPair{
+        Node node;
+        int verticalLevel;
+        int horizontalLevel;
+        verticalOrderPair(Node root, int verticalLevel, int horizontalLevel) {
+            this.node = root;
+            this.verticalLevel = verticalLevel;
+            this.horizontalLevel = horizontalLevel;
+        }
+    }
+    static List<List<Integer>> verticalOrder(Node root){
+        List<List<Integer>> verticalOrderList = new ArrayList<>();
+        if(root == null) return verticalOrderList;
+
+        TreeMap<Integer, TreeMap<Integer, PriorityQueue<Integer>>> myMap;
+        //TreeMap stores < Vertical line no, Horizontal level, Nodes (sorted) >
+        // left to right -> sorted
+        myMap = new TreeMap<>();
+
+        Queue<verticalOrderPair> q = new LinkedList<>();
+        q.offer(new verticalOrderPair(root, 0, 0));
+
+        while(!q.isEmpty()){
+            verticalOrderPair v = q.poll();
+            int ver = v.verticalLevel;
+            int hor = v.horizontalLevel;
+            if(!myMap.containsKey(ver)){
+                //this means - we are first time visiting this vertical line
+                myMap.put(ver, new TreeMap<>());
+                //hence we add it to myMap
+            }
+            if(!myMap.get(ver).containsKey(hor)){
+                //this will always execute when above if is executed
+                myMap.get(ver).put(hor, new PriorityQueue<>());
+            }
+            myMap.get(ver).get(hor).offer(v.node.value);
+            //executed in 2 cases: when new entry is added no PQ must be filled
+            // or when both statements are not executed, and we need to append new value
+            if(v.node.left!=null) q.offer(new verticalOrderPair(root.left, ver-1, hor+1));
+            if(v.node.right!=null) q.offer(new verticalOrderPair(root.right, ver+1, hor+1));
+
+        }
+        for(TreeMap<Integer, PriorityQueue<Integer>> i : myMap.values()){
+            List<Integer> temp = new ArrayList<>();
+            for(PriorityQueue<Integer> p : i.values()){
+                while(!p.isEmpty()){
+                    temp.add(p.poll());
+                }
+            }
+            verticalOrderList.add(temp);
+        }
+        return verticalOrderList;
     }
     static List<Integer> boundaryTraversal(Node root){
         List<Integer> myList = new ArrayList<>();
