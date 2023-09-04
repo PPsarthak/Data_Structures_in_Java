@@ -1,9 +1,6 @@
 package com.dataStructures;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 class Graph {
 
@@ -45,6 +42,24 @@ class Graph {
                 dfsRec(i, visited, dfs, adj);
             }
         }
+    }
+    //iterative is better for larger graph - needs manual stack handling
+    static List<Integer> dfsIt(int start, int n, List<List<Integer>> adj){
+        boolean[] visited = new boolean[n];
+        List<Integer> dfs = new ArrayList<>();
+        Stack<Integer> st = new Stack<>();
+        st.push(start);
+        while (!st.isEmpty()){
+            int vertex = st.pop();
+            visited[vertex] = true;
+            dfs.add(vertex);
+            for(Integer i: adj.get(vertex)){
+                if(!visited[i]){
+                    st.push(i);
+                }
+            }
+        }
+        return dfs;
     }
     public static void main(String[] args) {
 
