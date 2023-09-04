@@ -8,13 +8,13 @@ import java.util.Queue;
 class Graph {
 
     // BFS Traversal
-    static List<Integer> bfs(int v, List<List<Integer>> adj){
+    static List<Integer> bfs(int start, int n, List<List<Integer>> adj){
         List<Integer> bfs = new ArrayList<>();
-        boolean[] visited = new boolean[v];
+        boolean[] visited = new boolean[n]; // n = no of vertices / nodes
         Queue<Integer> q = new LinkedList<>();
 
         //starting node is 0 but can vary
-        q.offer(0);
+        q.offer(start);
         visited[0] = true;
 
         while (!q.isEmpty()){
@@ -30,6 +30,21 @@ class Graph {
 
         }
         return bfs;
+    }
+    static List<Integer> dfs(int start, int n, List<List<Integer>> adj){
+        boolean[] visited = new boolean[n]; // n = no of nodes/vertices
+        List<Integer> dfs = new ArrayList<>();
+        dfsRec(start, visited, dfs, adj);
+        return dfs;
+    }
+    static void dfsRec(int start, boolean[] visited, List<Integer> dfs, List<List<Integer>> adj){
+        visited[start] = true;
+        dfs.add(start);
+        for(Integer i : adj.get(start)){
+            if(!visited[i]){
+                dfsRec(i, visited, dfs, adj);
+            }
+        }
     }
     public static void main(String[] args) {
 
