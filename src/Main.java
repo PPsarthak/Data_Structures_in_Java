@@ -24,7 +24,13 @@ public class Main {
 //            System.out.println(head.val);
 //            head = head.next;
 //        }
-
+        int a = 5;
+        StringBuilder sb = new StringBuilder();
+        sb.append('a');
+        sb.append(a);
+        System.out.println(sb);
+        char c = '3';
+        int b = Integer.parseInt(String.valueOf(c));
     }
     static int[] maxSlidingWindow(int[] nums, int k) {
         int[] ans = new int[nums.length+k+k-2];

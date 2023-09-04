@@ -2,6 +2,9 @@ package com.dataStructures;
 
 import java.util.*;
 
+/**
+ * My Code for Binary Tree
+ */
 class BinaryTree {
     private static class Node{
         int value;
@@ -339,6 +342,7 @@ class BinaryTree {
             myList.add(myStack.pop());
         }
     }
+//    static List<Integer> rootToNodePath(Node root, )
     static boolean isLeaf(Node root){
         return root.left == null && root.right == null;
     }

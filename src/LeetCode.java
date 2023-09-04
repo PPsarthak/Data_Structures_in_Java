@@ -31,74 +31,62 @@ class ListNode {
     }
 }
 class Solution{
-    public int deepestLeavesSum(TreeNode root) {
-        if(root==null) return 0;
-        return sumNodes(root);
-    }
-    public int sumNodes(TreeNode root){
-        if (root == null){
-            return 0;
-        }
-        int leftSum = sumNodes(root.left);
-        int rightSum = sumNodes(root.right);
-        return Math.max(leftSum, rightSum);
-    }
-    //Q 480 - Sliding Window Median (Hard)
-    public double[] medianSlidingWindow(int[] nums, int k) {
-        double[] ans = new double[nums.length-k+1];
-        if(k==1){
-            for(int i=0; i<nums.length; i++){
-                ans[i] = nums[i];
-            }
-            return ans;
-        }
-        List<Integer> myVec = new Vector<>();
-        int index = 0;
-        for(int i=0; i<k; i++){
-            int j = myVec.size()-1;
-            boolean flag = false;
-            while(j>=0 && myVec.get(j)<nums[i]){
-                j--;
-                flag = true;
-            }
-            if(flag){
-                myVec.add(j+1, nums[i]);
-            }
-            else{
-                myVec.add(nums[i]);
-            }
-        }
-        int idx = myVec.size()/2;
-        if(myVec.size()%2!=0){
-            ans[index++] = (double)myVec.get(idx);
-        }
-        else{
-            ans[index++] = (double)(myVec.get(idx)+ myVec.get(idx-1))/2;
-        }
-        System.out.println(myVec);
-        for(int i=k; i<nums.length; i++){
-            myVec.remove((Integer) nums[i - k]);
-            System.out.println("Shifting slide" + myVec);
-            int j = myVec.size()-1;
-            boolean flag = false;
-            while(j>=0 && myVec.get(j)<nums[i]){
-                j--;
-                flag = true;
-            }
-            if(flag){
-                myVec.add(j+1, nums[i]);
-            }
-            else{
-                myVec.add(nums[i]);
-            }
-            if(myVec.size()%2!=0){
-                ans[index++] = (double)myVec.get(idx);
-            }
-            else{
-                ans[index++] = (double)(myVec.get(idx)+ myVec.get(idx-1))/2;
-            }
+    public int getMoneyAmount(int n) {
+        int ans = 0;
+        int start = 1, end  = n;
+        while(start!=end-1){
+            int mid = start + (end-start)/2;
+            System.out.println(mid);
+            ans+=mid;
+            start = mid+1;
         }
         return ans;
+    }
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if(head == null || head.next == null) return head;
+
+        ListNode temp = head;
+        int rcount = 1;
+        while(rcount<right && temp!=null){
+            temp = temp.next;
+            rcount++;
+        }
+        System.out.println("temp: " + temp.val);
+
+        //3 pointers - prev, curr and nex should reach required positions
+
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode nex = head.next;
+        ListNode xyz = null;
+        int lcount = 1;    //update lcount each time cur moves
+        while(lcount<=left && curr!=null){
+            prev = curr;
+            if(lcount+1 == left){
+                xyz = curr;
+            }
+            curr = nex;
+            nex = nex.next;
+            lcount++;
+        }
+        System.out.println("prev: " + prev.val + " curr: " + curr.val);
+        ListNode abc = prev;
+        System.out.println("xyz: " + xyz.val);
+        System.out.println("abc: " + abc.val);
+        prev.next = temp.next;
+        while(prev!=temp && curr!=null){
+            nex = curr.next;
+            curr.next = prev;
+
+            // Move the pointers forward
+            prev = curr;
+            curr = nex;
+            System.out.println("prev: " + prev.val + " curr: " + curr.val);
+
+        }
+        xyz.next = temp;
+
+        return xyz;
     }
 }
 
@@ -126,7 +114,7 @@ public class LeetCode {
         }
         System.out.print("The Linked List is: ");
         ListNode temp = head;
-        while(temp!=null){
+        while(temp!=null && temp.next!=null){
             System.out.print(temp.val + "->");
             temp = temp.next;
         }
@@ -134,7 +122,8 @@ public class LeetCode {
     }
     public static void main(String[] args) {
         Solution s = new Solution();
-        int[] llArr = {1,1,1,2,3};
-
+        int[] llArr = {1,2,3,4,5};
+        ListNode head = getLL(llArr);
+        System.out.println(s.getMoneyAmount(10));
     }
 }
