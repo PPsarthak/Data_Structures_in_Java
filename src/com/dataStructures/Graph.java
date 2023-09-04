@@ -61,6 +61,21 @@ class Graph {
         }
         return dfs;
     }
+    static List<List<Integer>> adjMat2List(int[][] matrix){
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < matrix.length; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                if(matrix[i][j] == 1 && i!=j){
+                    adj.get(i).add(j);
+                    adj.get(j).add(i);
+                }
+            }
+        }
+        return adj;
+    }
     public static void main(String[] args) {
 
     }
