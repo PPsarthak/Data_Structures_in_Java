@@ -31,66 +31,38 @@ class ListNode {
     }
 }
 class Solution{
-    public int getMoneyAmount(int n) {
-        int ans = 0;
-        int start = 1, end  = n;
-        while(start!=end-1){
-            int mid = start + (end-start)/2;
-            System.out.println(mid);
-            ans+=mid;
-            start = mid+1;
+    public List<List<Integer>> groupThePeople(int[] arr) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for(int i = 0; i < arr.length; i++){
+            if(map.containsKey(arr[i])){
+                if(map.get(arr[i]).size() == arr[i]){
+                    ans.add(new ArrayList<>(map.get(arr[i])));
+                    map.get(arr[i]).clear();
+                    map.get(arr[i]).add(i);
+                }
+                else{
+                    map.get(arr[i]).add(i);
+                }
+            }
+            else{
+                map.put(arr[i], new ArrayList<>());
+                map.get(arr[i]).add(i);
+            }
         }
         return ans;
-    }
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-        if(head == null || head.next == null) return head;
-
-        ListNode temp = head;
-        int rcount = 1;
-        while(rcount<right && temp!=null){
-            temp = temp.next;
-            rcount++;
-        }
-        System.out.println("temp: " + temp.val);
-
-        //3 pointers - prev, curr and nex should reach required positions
-
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode nex = head.next;
-        ListNode xyz = null;
-        int lcount = 1;    //update lcount each time cur moves
-        while(lcount<=left && curr!=null){
-            prev = curr;
-            if(lcount+1 == left){
-                xyz = curr;
-            }
-            curr = nex;
-            nex = nex.next;
-            lcount++;
-        }
-        System.out.println("prev: " + prev.val + " curr: " + curr.val);
-        ListNode abc = prev;
-        System.out.println("xyz: " + xyz.val);
-        System.out.println("abc: " + abc.val);
-        prev.next = temp.next;
-        while(prev!=temp && curr!=null){
-            nex = curr.next;
-            curr.next = prev;
-
-            // Move the pointers forward
-            prev = curr;
-            curr = nex;
-            System.out.println("prev: " + prev.val + " curr: " + curr.val);
-
-        }
-        xyz.next = temp;
-
-        return xyz;
     }
 }
 
 public class LeetCode {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        int[] llArr = {1,2,3,4,5};
+        ListNode head = getLL(llArr);
+
+        int[] arr = {3,3,3,3,3,1,3};
+        System.out.println(s.groupThePeople(arr));
+    }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {
             return null;
@@ -119,11 +91,5 @@ public class LeetCode {
             temp = temp.next;
         }
         System.out.println(temp.val);
-    }
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        int[] llArr = {1,2,3,4,5};
-        ListNode head = getLL(llArr);
-        System.out.println(s.getMoneyAmount(10));
     }
 }
