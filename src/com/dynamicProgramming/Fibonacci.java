@@ -17,7 +17,7 @@ public class Fibonacci {
      * Space optimized solution
      * @param n index of fibonacci number
      * @return fibonacci number of given index
-     * @SpaceComplexity O(1) ✅
+     * @SpaceComplexity O(1)
      */
     static int optimized(int n){
         if(n<=1) return n;

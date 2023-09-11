@@ -129,5 +129,7 @@ class Graph {
     }
     public static void main(String[] args) {
         HashMap<Integer, Integer> map = new HashMap<>();
+        List<Integer> myList = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
     }
 }
