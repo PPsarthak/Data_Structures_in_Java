@@ -30,6 +30,7 @@ public class FenwickTree {
      * Return the prefix sum till index i
      * @param i index
      * @return prefix sum
+     * @TimeComplexity O(log n)
      */
     int get(int i){
         i++;
@@ -50,6 +51,26 @@ public class FenwickTree {
     int rangeSum(int left, int right){
         if(left < 0) return 0;
         return get(right) - get(left-1);
+    }
+
+    /**
+     * Returns the index till which the prefix sum <= given value
+     * @param value of sum whose lower bound is to be found
+     * @return last index till prefix sum is less than given value
+     */
+    int lowerBoundPrefixSum(int value){
+        int ans = 0;
+        int currIdx = 0;
+        int prevSum = 0;
+        int start =  ((int)Math.log(size)/(int)Math.log(2));
+        for(int i = start; i>=0; i--){
+            /* Adjusting the value of 2's power while sum is less than value */
+            if(FTree[currIdx + (1<<i)] + prevSum < value){
+                currIdx += 1<<i;
+                prevSum+=FTree[currIdx];
+            }
+        }
+        return currIdx+1;
     }
     public static void main(String[] args) {
         int[] arr = {1,3,5};
