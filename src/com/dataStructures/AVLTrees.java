@@ -33,14 +33,15 @@ public class AVLTrees {
         int balance = getBalance(root);
 
         /* Find the appropriate case and re-balance the tree */
+        //Left-Left Case
         if (balance > 1 && value < root.left.value)
             return rightRotate(root);
 
-        // Right Right Case
+        // Right-Right Case
         if (balance < -1 && value > root.right.value)
             return leftRotate(root);
 
-        // Left Right Case
+        // Left-Right Case
         if (balance > 1 && value > root.left.value) {
             root.left = leftRotate(root.left);
             return rightRotate(root);
@@ -85,5 +86,42 @@ public class AVLTrees {
     }
         private int getBalance(Node root) {
         return root.left.height - root.right.height;
+    }
+    Node delete(Node root, int key){
+        /* perform normal deletion in BST */
+        if(key < root.value){
+            root.left = delete(root.left, key);
+        }
+        else if(key > root.value){
+            root.right = delete(root.right, key);
+        }
+        else{
+            if(root.left == null && root.right == null){
+                return null;
+            }
+            else if (root.left == null || root.right == null) {
+                if(root.right!=null){
+                    return root.right;
+                }
+                else{
+                    return root.left;
+                }
+            }
+            else{
+                Node ins = inOrderSuccessor(root.right);
+                root.value = ins.value;
+                root.right = delete(root.right, ins.value);
+            }
+        }
+
+
+        return root;
+    }
+
+    private Node inOrderSuccessor(Node root) {
+        while(root.left!=null){
+            root = root.left;
+        }
+        return root;
     }
 }
