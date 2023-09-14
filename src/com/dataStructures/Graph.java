@@ -3,6 +3,30 @@ package com.dataStructures;
 import java.util.*;
 
 class Graph {
+    static List<Integer> componentBFS(int start, List<List<Integer>> adj){
+        List<Integer> traversal = new ArrayList<>();
+        boolean[] visited = new boolean[adj.size()];
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]) componentBFSUtil(i, traversal, adj, visited);
+        }
+        return traversal;
+    }
+    static void componentBFSUtil(int start, List<Integer> traversal,
+                                 List<List<Integer>> adj, boolean[] visited){
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        visited[start] = true;
+        while (!q.isEmpty()){
+            int temp = q.poll();
+            traversal.add(temp);
+            for(Integer i : adj.get(temp)){
+                if(!visited[i]){
+                    q.offer(i);
+                    visited[i] = true;
+                }
+            }
+        }
+    }
     // BFS Traversal
     static List<Integer> bfs(int start, int n, List<List<Integer>> adj){
         List<Integer> bfs = new ArrayList<>();
