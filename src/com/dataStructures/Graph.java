@@ -94,47 +94,24 @@ class Graph {
         }
         return counter;
     }
-    static class XY{
-        int i;
-        int j;
-
-        XY(int i, int j){
-            this.i = i;
-            this.j = j;
+    static boolean udCycleDFS(List<List<Integer>> adj){
+        boolean visited = new boolean[adj.size()];
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]){
+                if(udCycleDFSUtil(i, -1, visited, adj)) return true;
+            }
         }
+        return false;
     }
-    static void myBFS(int x, int y, boolean[][] visited, char[][] grid){
-        Queue<XY> q = new LinkedList<>();
-        q.offer(new XY(x,y));
-        visited[x][y] = true;
-        while (!q.isEmpty()){
-            XY node = q.poll();
-
-            /* Checking the neighbours  */
-            int i = node.i;
-            int j = node.j;
-
-            /* Top */
-            if(i>0 && grid[i-1][j] == '1' && !visited[i-1][j]) {
-                visited[i - 1][j] = true;
-                q.offer(new XY(i - 1, j));
+    static boolean udCycleDFSUtil(int start, int parent, boolean[] visited, List<List<Integer>> adj){
+        visited[start] = true;
+        for(Integer i : adj.get(start)){
+            if(!visited[i]){
+                if(udCycleDFSUtil(i, start, visited, adj)) return true;
             }
-            /* Bottom */
-            if(i<grid.length-1 && grid[i+1][j] == '1' && !visited[i+1][j]) {
-                visited[i+1][j] = true;
-                q.offer(new XY(i + 1, j));
-            }
-            /* Left */
-            if(j>0 && grid[i][j-1] == '1' && !visited[i][j-1]) {
-                visited[i][j-1] = true;
-                q.offer(new XY(i, j - 1));
-            }
-            /* Right */
-            if(j< grid[0].length-1 && grid[i][j+1] == '1' && !visited[i][j+1]) {
-                visited[i][j+1] = true;
-                q.offer(new XY(i, j + 1));
-            }
+            else if(i!=parent) return true;
         }
+        return false;
     }
     static List<List<Integer>> adjMat2List(int[][] matrix){
         List<List<Integer>> adj = new ArrayList<>();
