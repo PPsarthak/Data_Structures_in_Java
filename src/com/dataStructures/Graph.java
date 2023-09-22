@@ -94,6 +94,35 @@ class Graph {
         }
         return counter;
     }
+    //detect cycle in undirected graph using BFS Traversal
+    static class cyclePair{
+        int node;
+        int parent;
+
+        public cyclePair(int node, int parent) {
+            this.node = node;
+            this.parent = parent;
+        }
+    }
+    static boolean udCycleBFS(List<List<Integer>> adj, int start){
+        boolean[] visited = new boolean[adj.size()];
+        Queue<cyclePair> q = new LinkedList<>();
+        q.offer(new cyclePair(start, -1));
+        visited[start] = true;
+        while(!q.isEmpty()){
+            cyclePair temp = q.poll();
+            for(Integer i : adj.get(temp.node)){
+                if(!visited[i] && i!= temp.parent){
+                    visited[i] = true;
+                    q.offer(new cyclePair(i, temp.node));
+                } else if (visited[i] && i!= temp.node) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    //detect cycle in undirected graph using DFS Traversal
     static boolean udCycleDFS(List<List<Integer>> adj){
         boolean visited = new boolean[adj.size()];
         for(int i=0; i<visited.length; i++){
