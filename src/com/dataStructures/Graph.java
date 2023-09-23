@@ -108,19 +108,6 @@ class Graph {
         }
         return true;
     }
-    static int islands(char[][] grid){
-        boolean[][] visited = new boolean[grid.length][grid[0].length];
-        int counter = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if(grid[i][j] == '1' && !visited[i][j]){
-                    counter++;
-                    myBFS(i, j, visited, grid);
-                }
-            }
-        }
-        return counter;
-    }
     //detect cycle in undirected graph using BFS Traversal
     static class cyclePair{
         int node;
@@ -151,7 +138,7 @@ class Graph {
     }
     //detect cycle in undirected graph using DFS Traversal
     static boolean udCycleDFS(List<List<Integer>> adj){
-        boolean visited = new boolean[adj.size()];
+        boolean[] visited = new boolean[adj.size()];
         for(int i=0; i<visited.length; i++){
             if(!visited[i]){
                 if(udCycleDFSUtil(i, -1, visited, adj)) return true;
