@@ -2,22 +2,6 @@ package com.dataStructures;
 
 public class SegmentTree {
     private int[] STree;
-    /*
-    private int maxsize;
-    private int height;
-
-    private  final int STARTINDEX = 0;
-    private  final int ENDINDEX;
-    private  final int ROOT = 0;
-
-    public SegmentTree(int size)
-    {
-        height = (int)(Math.ceil(Math.log(size) /  Math.log(2)));
-        maxsize = 2 * (int) Math.pow(2, height) - 1;
-        tree = new int[maxsize];
-        ENDINDEX = size - 1;
-    }
-     */
 
     /**
      * Returns the left child index
@@ -35,7 +19,6 @@ public class SegmentTree {
     private int rightChild(int index){
         return (2*index)+2;
     }
-
     /**
      * Returns the mid of the start and end
      * @param start index

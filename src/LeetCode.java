@@ -31,37 +31,79 @@ class ListNode {
     }
 }
 class Solution{
-    public List<List<Integer>> groupThePeople(int[] arr) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for(int i = 0; i < arr.length; i++){
-            if(map.containsKey(arr[i])){
-                if(map.get(arr[i]).size() == arr[i]){
-                    ans.add(new ArrayList<>(map.get(arr[i])));
-                    map.get(arr[i]).clear();
-                    map.get(arr[i]).add(i);
-                }
-                else{
-                    map.get(arr[i]).add(i);
-                }
+    public ListNode reverseKGroup(ListNode head, int k) {
+
+//base case
+        if(head == null || head.next == null) return head;
+        if(k == 1) return head;
+
+//initialize dummy pointer
+        ListNode newHead = new ListNode(-1);
+        newHead.next = head;
+
+//pointers for reversal
+        ListNode startPtr = head;
+        ListNode endPtr = head;
+        int start = 1;
+        int end = 1;
+        ListNode prevNode = newHead;
+        ListNode nextNode = endPtr.next;
+
+//traversing and reversing
+        while(endPtr!=null){
+            if(end-start+1 == k){
+                System.out.println(startPtr.val + " " + endPtr.val);
+                // System.out.println(prevNode.val + " " + nextNode.val);
+
+                //reverse
+                newHead = reverse(newHead,startPtr,endPtr,prevNode,nextNode);
+
+                //update after reversing
+                prevNode = startPtr;
+                startPtr = nextNode;
+                endPtr = startPtr;
+                nextNode = nextNode.next;
+                start = end+1;
+                end = end+1;
+
             }
             else{
-                map.put(arr[i], new ArrayList<>());
-                map.get(arr[i]).add(i);
+                // not to reverse
+                endPtr = endPtr.next;
+                if(endPtr!=null) nextNode = endPtr.next;
+                end++;
             }
         }
-        return ans;
+        return newHead;
+    }
+    ListNode reverse(ListNode head, ListNode p, ListNode q, ListNode start, ListNode end){
+        ListNode prev = p;
+        ListNode curr = p.next;
+        ListNode next = null;
+        if(curr!=null && curr.next!=null) next = curr.next;
+
+        p.next = end;
+        while(curr!=null && curr!=end){
+            //reverse
+            curr.next = prev;
+
+            //inc
+            prev = curr;
+            curr = next;
+            if(curr!=null) next = curr.next;
+        }
+        if(start!=null) start.next = q;
+        // System.out.println(curr.next.val);
+        return prev;
     }
 }
 
 public class LeetCode {
     public static void main(String[] args) {
-        Solution s = new Solution();
+        Solution solution = new Solution();
         int[] llArr = {1,2,3,4,5};
         ListNode head = getLL(llArr);
 
-        int[] arr = {3,3,3,3,3,1,3};
-        System.out.println(s.groupThePeople(arr));
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {

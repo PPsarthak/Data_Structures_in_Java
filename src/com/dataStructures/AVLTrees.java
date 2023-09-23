@@ -84,7 +84,7 @@ public class AVLTrees {
         // Return new root
         return x;
     }
-        private int getBalance(Node root) {
+    private int getBalance(Node root) {
         return root.left.height - root.right.height;
     }
     Node delete(Node root, int key){
