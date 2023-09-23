@@ -81,6 +81,33 @@ class Graph {
         }
         return dfs;
     }
+    static boolean isBipartite(int[][] graph) {
+        int[] colored = new int[graph.length];
+        for(int i=0; i<colored.length; i++){
+            if(colored[i] == 0){
+                if(!bipartiteBfs(graph, colored, i)) return false;
+            }
+        }
+        return true;
+    }
+    static boolean bipartiteBfs(int[][] graph, int[] colored, int start){
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        colored[start] = 2;
+        while(!q.isEmpty()){
+            int temp = q.poll();
+            for(int i : graph[temp]){
+                //if not colored yet, give appropriate color & add to Q
+                if(colored[i] == 0){
+                    colored[i] = 1-colored[temp];
+                    q.offer(i);
+                }
+                //if color matches to current node, return false
+                else if(colored[i] == colored[temp]) return false;
+            }
+        }
+        return true;
+    }
     static int islands(char[][] grid){
         boolean[][] visited = new boolean[grid.length][grid[0].length];
         int counter = 0;
