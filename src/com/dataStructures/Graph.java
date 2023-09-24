@@ -81,6 +81,30 @@ class Graph {
         }
         return dfs;
     }
+    static boolean dCycle(List<List<Integer>> adj){
+        boolean[] visited = new boolean[adj.size()];
+        boolean[] pathVisited = new boolean[adj.size()];
+        for (int i = 0; i < visited.length; i++) {
+            if(!visited[i]){
+                if(dfsCheck(i, adj, visited, pathVisited)) return true;
+            }
+        }
+        return false;
+    }
+    static boolean dfsCheck(int start, List<List<Integer>> adj, boolean[] visited, boolean[] pathVisited){
+        visited[start] = true;
+        pathVisited[start] = true;
+
+        for (Integer i : adj.get(start)){
+            if(!visited[i]){
+                if(dfsCheck(i, adj, visited, pathVisited)) return true;
+            }
+            else if(pathVisited[i]) return true;
+        }
+
+        pathVisited[start] = false;
+        return false;
+    }
     static boolean isBipartite(int[][] graph) {
         int[] colored = new int[graph.length];
         for(int i=0; i<colored.length; i++){
