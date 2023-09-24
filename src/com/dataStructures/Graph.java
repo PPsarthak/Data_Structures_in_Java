@@ -27,7 +27,15 @@ class Graph {
             }
         }
     }
-    // BFS Traversal
+    /**
+     * @param start starting vertex of traversal
+     * @param n size of adj list
+     * @param adj adjacency list of graph
+     * @return a list of bfs traversal
+     * @TimeComplexity O(V + E) where V is the number of vertices and E is the number of edges.
+     *                 The algorithm explores each vertex and each edge once.
+     *@SpaceComplexity  O(V): visited array.
+     */
     static List<Integer> bfs(int start, int n, List<List<Integer>> adj){
         List<Integer> bfs = new ArrayList<>();
         boolean[] visited = new boolean[n]; // n = no of vertices / nodes
@@ -105,6 +113,12 @@ class Graph {
         pathVisited[start] = false;
         return false;
     }
+
+    /**
+     * checks whether a graph is bipartite or not
+     * @param graph adj matrix of the graph
+     * @return true if graph is bipartite else false
+     */
     static boolean isBipartite(int[][] graph) {
         int[] colored = new int[graph.length];
         for(int i=0; i<colored.length; i++){
@@ -132,16 +146,15 @@ class Graph {
         }
         return true;
     }
-    //detect cycle in undirected graph using BFS Traversal
-    static class cyclePair{
-        int node;
-        int parent;
-
-        public cyclePair(int node, int parent) {
-            this.node = node;
-            this.parent = parent;
-        }
-    }
+    /**
+     * Detects cycles in an undirected graph using Breadth-First Search (BFS).
+     * @param adj     The adjacency list representation of the graph.
+     * @param start   The starting vertex for the cycle detection.
+     * @return        True if a cycle is detected, false otherwise
+     * @TimeComplexity   O(V + E) where V is the number of vertices and E is the number of edges.
+     *                   The algorithm explores each vertex and each edge once.
+     * @SpaceComplexity  O(V): visited array.
+     */
     static boolean udCycleBFS(List<List<Integer>> adj, int start){
         boolean[] visited = new boolean[adj.size()];
         Queue<cyclePair> q = new LinkedList<>();
@@ -160,7 +173,23 @@ class Graph {
         }
         return false;
     }
-    //detect cycle in undirected graph using DFS Traversal
+    static class cyclePair{
+        int node;
+        int parent;
+
+        public cyclePair(int node, int parent) {
+            this.node = node;
+            this.parent = parent;
+        }
+    }
+
+    /**
+     * Detects cycle in undirected graph using DFS Traversal
+     * @param adj adjacency list of the graph
+     * @return whether the undirected graph contains cycle
+     * @TimeComplexity O(V+E): similar to DFS
+     * @SpaceComplexity O(V): visited array
+     */
     static boolean udCycleDFS(List<List<Integer>> adj){
         boolean[] visited = new boolean[adj.size()];
         for(int i=0; i<visited.length; i++){
@@ -180,6 +209,72 @@ class Graph {
         }
         return false;
     }
+
+    /**
+     * @DataStructures Uses a stack, along with
+     * @param adj adjacency list of the graph
+     * @return one of the topological order of the graph
+     * @TimeComplexity O(V+E) i.e., similar to DFS algorithm
+     * @SpaceComplexity O(N): for stack + O(N): visited array + O(N): auxiliary space
+     */
+    static List<Integer> topoSort(List<List<Integer>> adj){
+        boolean[] visited = new boolean[adj.size()];
+        Stack<Integer> myStack = new Stack<>();
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]) dfsTopo(i, adj, visited, myStack);
+        }
+        List<Integer> ans = new ArrayList<>();
+        while(!myStack.isEmpty()){
+            ans.add(myStack.pop());
+        }
+        return ans;
+    }
+
+    private static void dfsTopo(int start, List<List<Integer>> adj, boolean[] visited, Stack<Integer> myStack) {
+        visited[start] = true;
+        for(Integer i : adj.get(start)){
+            if(!visited[i]) dfsTopo(i, adj, visited, myStack);
+        }
+        myStack.push(start);
+    }
+
+    /**
+     * Topological Sort using BFS - Kahn's Algorithm: Vertex with 0 indegree should come first
+     * @DataStructures Queue: BFS Traversal
+     * @param adj adjacency list of the graph
+     * @return a list of topological sorted order using BFS
+     * @TimeComplexity O(V+E): same as BFS
+     * @SpaceComplexity O(V): for the indegree array
+     */
+    static List<Integer> kahnAlgo(List<List<Integer>> adj){
+        int[] inDegree = new int[adj.size()];
+        for(int i=0; i< adj.size(); i++){
+            for(int j : adj.get(i)){
+                inDegree[j]++;
+            }
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < inDegree.length; i++) {
+            if(inDegree[i] == 0) q.offer(i);
+        }
+
+        List<Integer> topo = new ArrayList<>();
+        while (!q.isEmpty()){
+            int temp = q.poll();
+            topo.add(temp);
+
+            //after adding the vertex to ans, reduce the edges (indegree) of its neighbors by 1
+            for(int i : adj.get(temp)){
+                inDegree[i]--;
+                if(inDegree[i] == 0) q.offer(i);
+            }
+        }
+        return topo;
+    }
+
+
+
+    //new codes go above ~ maintain 3 spaces
     static List<List<Integer>> adjMat2List(int[][] matrix){
         List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
