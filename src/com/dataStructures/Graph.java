@@ -163,10 +163,10 @@ class Graph {
         while(!q.isEmpty()){
             cyclePair temp = q.poll();
             for(Integer i : adj.get(temp.node)){
-                if(!visited[i] && i!= temp.parent){
+                if(!visited[i]){
                     visited[i] = true;
                     q.offer(new cyclePair(i, temp.node));
-                } else if (visited[i] && i!= temp.node) {
+                } else if (i!= temp.parent) {
                     return true;
                 }
             }
