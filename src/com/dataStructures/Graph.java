@@ -89,31 +89,6 @@ class Graph {
         }
         return dfs;
     }
-    static boolean dCycle(List<List<Integer>> adj){
-        boolean[] visited = new boolean[adj.size()];
-        boolean[] pathVisited = new boolean[adj.size()];
-        for (int i = 0; i < visited.length; i++) {
-            if(!visited[i]){
-                if(dfsCheck(i, adj, visited, pathVisited)) return true;
-            }
-        }
-        return false;
-    }
-    static boolean dfsCheck(int start, List<List<Integer>> adj, boolean[] visited, boolean[] pathVisited){
-        visited[start] = true;
-        pathVisited[start] = true;
-
-        for (Integer i : adj.get(start)){
-            if(!visited[i]){
-                if(dfsCheck(i, adj, visited, pathVisited)) return true;
-            }
-            else if(pathVisited[i]) return true;
-        }
-
-        pathVisited[start] = false;
-        return false;
-    }
-
     /**
      * checks whether a graph is bipartite or not
      * @param graph adj matrix of the graph
@@ -209,7 +184,30 @@ class Graph {
         }
         return false;
     }
+    static boolean dCycle(List<List<Integer>> adj){
+        boolean[] visited = new boolean[adj.size()];
+        boolean[] pathVisited = new boolean[adj.size()];
+        for (int i = 0; i < visited.length; i++) {
+            if(!visited[i]){
+                if(dfsCheck(i, adj, visited, pathVisited)) return true;
+            }
+        }
+        return false;
+    }
+    static boolean dfsCheck(int start, List<List<Integer>> adj, boolean[] visited, boolean[] pathVisited){
+        visited[start] = true;
+        pathVisited[start] = true;
 
+        for (Integer i : adj.get(start)){
+            if(!visited[i]){
+                if(dfsCheck(i, adj, visited, pathVisited)) return true;
+            }
+            else if(pathVisited[i]) return true;
+        }
+
+        pathVisited[start] = false;
+        return false;
+    }
     /**
      * @DataStructures Uses a stack, along with
      * @param adj adjacency list of the graph
@@ -271,7 +269,51 @@ class Graph {
         }
         return topo;
     }
+    /**
+     * DOES NOT WORK FOR GRAPH WITH NEGATIVE WEIGHTS!
+     * Dijkstra's Algo is used to find min weighted path from source to all nodes
+     * @DataStructures Priority Queue instead of Queue since we need to pop node with the smallest distance first
+     * @param adj weighted edge list of graph
+     * @param source vertex from which min dist of all nodes is stored in array
+     * @return an array containing the min dist to reach a node from source
+     * @TimeComplexity O(E*logV): additional logV in multiplication bcoz of the use of PQ
+     * @SpaceComplexity O(N): PQ + O(N): ans array
+     */
+    static int[] dijkstraAlgo(List<List<List<Integer>>> adj, int source){
+        PriorityQueue<DijkstraPair> pq = new PriorityQueue<DijkstraPair>((x,y)->x.distance - y.distance);
 
+        int[] dijkstra = new int[adj.size()];
+        Arrays.fill(dijkstra, (int)(1e9));
+
+        dijkstra[source] = 0;
+        pq.offer(new DijkstraPair(source, 0));
+
+        while (!pq.isEmpty()){
+            DijkstraPair temp = pq.poll();
+            int currDist = temp.distance;
+            int currNode = temp.node;
+
+            for(int i=0; i<adj.get(currNode).size(); i++){
+                int adjNode = adj.get(currNode).get(i).get(0);
+                int edgeWt = adj.get(currNode).get(i).get(1);
+
+                if(currDist + edgeWt < dijkstra[adjNode]){
+                    dijkstra[adjNode] = currDist + edgeWt;
+                    pq.offer(new DijkstraPair(adjNode, dijkstra[adjNode]));
+                }
+            }
+        }
+        return dijkstra;
+    }
+    static class DijkstraPair{
+        int node;
+        int distance;
+
+        public DijkstraPair(int node, int distance) {
+            this.node = node;
+            this.distance = distance;
+        }
+    }
 
 
     //new codes go above ~ maintain 3 spaces
