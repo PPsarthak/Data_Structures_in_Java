@@ -221,11 +221,11 @@ class Graph {
         for(int i=0; i<visited.length; i++){
             if(!visited[i]) dfsTopo(i, adj, visited, myStack);
         }
-        List<Integer> ans = new ArrayList<>();
+        List<Integer> dist = new ArrayList<>();
         while(!myStack.isEmpty()){
-            ans.add(myStack.pop());
+            dist.add(myStack.pop());
         }
-        return ans;
+        return dist;
     }
 
     private static void dfsTopo(int start, List<List<Integer>> adj, boolean[] visited, Stack<Integer> myStack) {
@@ -261,7 +261,7 @@ class Graph {
             int temp = q.poll();
             topo.add(temp);
 
-            //after adding the vertex to ans, reduce the edges (indegree) of its neighbors by 1
+            //after adding the vertex to dist, reduce the edges (indegree) of its neighbors by 1
             for(int i : adj.get(temp)){
                 inDegree[i]--;
                 if(inDegree[i] == 0) q.offer(i);
@@ -277,19 +277,19 @@ class Graph {
      * @param source vertex from which min dist of all nodes is stored in array
      * @return an array containing the min dist to reach a node from source
      * @TimeComplexity O(E*logV): additional logV in multiplication bcoz of the use of PQ
-     * @SpaceComplexity O(N): PQ + O(N): ans array
+     * @SpaceComplexity O(N): PQ + O(N): dist array
      */
     static int[] dijkstraAlgo(List<List<List<Integer>>> adj, int source){
-        PriorityQueue<DijkstraPair> pq = new PriorityQueue<DijkstraPair>((x,y)->x.distance - y.distance);
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((x, y)->x.distance - y.distance);
 
         int[] dijkstra = new int[adj.size()];
         Arrays.fill(dijkstra, (int)(1e9));
 
         dijkstra[source] = 0;
-        pq.offer(new DijkstraPair(source, 0));
+        pq.offer(new Pair(source, 0));
 
         while (!pq.isEmpty()){
-            DijkstraPair temp = pq.poll();
+            Pair temp = pq.poll();
             int currDist = temp.distance;
             int currNode = temp.node;
 
@@ -299,22 +299,114 @@ class Graph {
 
                 if(currDist + edgeWt < dijkstra[adjNode]){
                     dijkstra[adjNode] = currDist + edgeWt;
-                    pq.offer(new DijkstraPair(adjNode, dijkstra[adjNode]));
+                    pq.offer(new Pair(adjNode, dijkstra[adjNode]));
                 }
             }
         }
         return dijkstra;
     }
-    static class DijkstraPair{
+    static class Pair {
         int node;
         int distance;
 
-        public DijkstraPair(int node, int distance) {
+        public Pair(int node, int distance) {
             this.node = node;
             this.distance = distance;
         }
     }
+    static int[] bellmanFord(int V, List<List<Integer>> edges, int source){
+        int[] dist = new int[V];
+        Arrays.fill(dist, (int)(1e9));
+        dist[source] = 0;
+        
+        //relax for N-1 iterations: N = number of vertices
+        for (int i = 0; i < V-1; i++) {
+            for(List<Integer> list : edges){
+                int u = list.get(0);
+                int v = list.get(1);
+                int w = list.get(2);
 
+                //if u has been previously reached and now distance is min
+                if(dist[u] != (int)(1e9) && dist[u] + w < dist[v]){
+                    dist[v] = dist[u]+w;
+                }
+            }
+        }
+
+        //if there is a relaxation in this extra iteration
+        //then there is a net-negative weighted cycle in the graph
+        for(List<Integer> list : edges){
+            int u = list.get(0);
+            int v = list.get(1);
+            int w = list.get(2);
+
+            if(dist[u] != (int)(1e9) && dist[u] + w < dist[v]){
+                //cycle found
+                return new int[]{-1};
+            }
+        }
+        return dist;
+    }
+
+    /**
+     * Prim's Algorithm is a greedy algorithm to find min spanning tree
+     * @param V number of vertices
+     * @param adj this is the WEIGHTED EDGE LIST:= so we used V to denote no of nodes
+     * @return edge list (w/o the weights) of the min spanning tree
+     * @TimeComplexity O(E*logE) + O(E*logE)
+     * @SpaceComplexity O(V):= visited array + O(E):= Priority Queue
+     * @DataStructures Priority Queue
+     */
+    static List<List<Integer>> primAlgo(int V, List<List<List<Integer>>> adj){
+        PriorityQueue<PrimPair> pq = new PriorityQueue<PrimPair>((x,y)->x.weight - y.weight);
+        boolean[] visited = new boolean[V];
+        List<List<Integer>> mst = new ArrayList<>();
+        //assuming src = 0
+        pq.offer(new PrimPair(0,0,-1));
+        int sum = 0;
+        while(!pq.isEmpty()){
+            //if you do this then the space to store the object is reduced
+            //no you are just using space to store 2 int
+            //on the other hand, you would use Object + 2 int if you had polled first
+            int node = pq.peek().node;
+            int weight = pq.peek().weight;
+            int parent = pq.peek().parent;
+            pq.poll();
+
+            if(!visited[node]){
+                visited[node] = true;
+                //only if current node is not the start node bcoz we don't want to add source node immediately
+                if(parent!=-1){
+                    List<Integer> edge = new ArrayList<>();
+                    edge.add(node);
+                    edge.add(parent);
+                    mst.add(edge);
+                    sum += weight;
+                }
+                //check for the neighbours of current node
+                for(int i=0; i<adj.get(node).size(); i++){
+                    int adjNode = adj.get(node).get(i).get(0);
+                    int edgeWt = adj.get(node).get(i).get(1);
+                    //only if adjacent nodes are not visited, add them to PQ, otherwise leave it
+                    if(!visited[adjNode]) pq.offer(new PrimPair(adjNode, edgeWt, node));
+                }
+            }
+
+        }
+//        System.out.println("The sum of MST is: " + sum);
+        return mst;
+    }
+    static class PrimPair{
+        int node;
+        int weight;
+        int parent;
+
+        public PrimPair(int node, int weight, int parent) {
+            this.node = node;
+            this.weight = weight;
+            this.parent = parent;
+        }
+    }
 
     //new codes go above ~ maintain 3 spaces
     static List<List<Integer>> adjMat2List(int[][] matrix){

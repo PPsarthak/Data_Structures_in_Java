@@ -31,70 +31,27 @@ class ListNode {
     }
 }
 class Solution{
-    public ListNode reverseKGroup(ListNode head, int k) {
-
-//base case
-        if(head == null || head.next == null) return head;
-        if(k == 1) return head;
-
-//initialize dummy pointer
-        ListNode newHead = new ListNode(-1);
-        newHead.next = head;
-
-//pointers for reversal
-        ListNode startPtr = head;
-        ListNode endPtr = head;
-        int start = 1;
-        int end = 1;
-        ListNode prevNode = newHead;
-        ListNode nextNode = endPtr.next;
-
-//traversing and reversing
-        while(endPtr!=null){
-            if(end-start+1 == k){
-                System.out.println(startPtr.val + " " + endPtr.val);
-                // System.out.println(prevNode.val + " " + nextNode.val);
-
-                //reverse
-                newHead = reverse(newHead,startPtr,endPtr,prevNode,nextNode);
-
-                //update after reversing
-                prevNode = startPtr;
-                startPtr = nextNode;
-                endPtr = startPtr;
-                nextNode = nextNode.next;
-                start = end+1;
-                end = end+1;
-
+    public String decodeAtIndex(String s, int k) {
+        StringBuilder sb = new StringBuilder();
+        boolean flag = false;
+        int i = 0;
+        while(i<s.length()){
+            if(i == k-1 && !flag){
+                return Character.toString(s.charAt(i));
+            }
+            if((int)(s.charAt(i))>49 && (int)(s.charAt(i))<58){
+                int num = ((int)(s.charAt(i))) - 48;
+                String s1 = sb.toString();
+                sb.append(s1.repeat(Math.max(0, num - 2)));
             }
             else{
-                // not to reverse
-                endPtr = endPtr.next;
-                if(endPtr!=null) nextNode = endPtr.next;
-                end++;
+                sb.append(s.charAt(i));
+
             }
+            i++;
         }
-        return newHead;
-    }
-    ListNode reverse(ListNode head, ListNode p, ListNode q, ListNode start, ListNode end){
-        ListNode prev = p;
-        ListNode curr = p.next;
-        ListNode next = null;
-        if(curr!=null && curr.next!=null) next = curr.next;
 
-        p.next = end;
-        while(curr!=null && curr!=end){
-            //reverse
-            curr.next = prev;
-
-            //inc
-            prev = curr;
-            curr = next;
-            if(curr!=null) next = curr.next;
-        }
-        if(start!=null) start.next = q;
-        // System.out.println(curr.next.val);
-        return prev;
+        return sb.toString();
     }
 }
 
