@@ -408,6 +408,8 @@ class Graph {
         }
     }
 
+
+
     //new codes go above ~ maintain 3 spaces
     static List<List<Integer>> adjMat2List(int[][] matrix){
         List<List<Integer>> adj = new ArrayList<>();
@@ -428,5 +430,24 @@ class Graph {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<Integer> myList = new ArrayList<>();
         Set<Integer> set = new HashSet<>();
+
+        DisjointSet ds = new DisjointSet(7);
+        ds.unionBySize(1,2);
+        ds.unionBySize(2,3);
+        ds.unionBySize(4,5);
+        ds.unionBySize(6,7);
+        ds.unionBySize(5,6);
+
+        if(ds.findUParent(3) == ds.findUParent(7)){
+            System.out.println("connected");
+        }
+        else System.out.println("not connected");
+
+        ds.unionByRank(3,7);
+
+        if(ds.findUParent(3) == ds.findUParent(7)){
+            System.out.println("connected");
+        }
+        else System.out.println("not connected");
     }
 }
