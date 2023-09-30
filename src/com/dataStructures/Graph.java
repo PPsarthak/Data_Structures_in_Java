@@ -407,7 +407,35 @@ class Graph {
             this.parent = parent;
         }
     }
+    static class KruskalPair implements Comparable<KruskalPair>{
+        int node;
+        int parent;
+        int weight;
 
+        KruskalPair(int node, int parent, int weight){
+            this.node = node;
+            this.parent = parent;
+            this.weight = weight;
+        }
+        public int compareTo(KruskalPair kruskalPair){
+            return this.weight-kruskalPair.weight;
+        }
+    }
+    static List<List<Integer>> kruskalAlgo(int V, List<List<List<Integer>>> adj){
+        List<KruskalPair> edges = new ArrayList<>();
+        for(int i=0; i<V; i++){
+            for (int j = 0; j < adj.get(i).size(); j++) {
+                int adjNode = adj.get(i).get(j).get(0);
+                int wt = adj.get(i).get(j).get(1);
+                int node = i;
+                KruskalPair temp = new KruskalPair(i, adjNode, wt);
+                edges.add(temp);
+            }
+        }
+        DisjointSet ds = new DisjointSet(V);
+        Collections.sort(edges);
+        
+    }
 
 
     //new codes go above ~ maintain 3 spaces
@@ -430,7 +458,8 @@ class Graph {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<Integer> myList = new ArrayList<>();
         Set<Integer> set = new HashSet<>();
-
+        StringBuilder sb = new StringBuilder();
+        sb.deleteCharAt(sb.length()-1);
         DisjointSet ds = new DisjointSet(7);
         ds.unionBySize(1,2);
         ds.unionBySize(2,3);
