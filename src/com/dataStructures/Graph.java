@@ -427,14 +427,23 @@ class Graph {
             for (int j = 0; j < adj.get(i).size(); j++) {
                 int adjNode = adj.get(i).get(j).get(0);
                 int wt = adj.get(i).get(j).get(1);
-                int node = i;
-                KruskalPair temp = new KruskalPair(i, adjNode, wt);
-                edges.add(temp);
+                edges.add(new KruskalPair(i, adjNode, wt));
             }
         }
         DisjointSet ds = new DisjointSet(V);
         Collections.sort(edges);
-        
+        int mstWeight = 0;
+        List<List<Integer>> ans = new ArrayList<>();
+        for (int i = 0; i < edges.size(); i++) {
+            int wt = edges.get(i).weight;
+            int u = edges.get(i).node;
+            int v = edges.get(i).parent;
+            if (ds.findUParent(u) != ds.findUParent(v)) {
+                mstWeight += wt;
+                ds.unionBySize(u, v);
+            }
+        }
+        return ans;
     }
 
 
@@ -458,25 +467,12 @@ class Graph {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<Integer> myList = new ArrayList<>();
         Set<Integer> set = new HashSet<>();
-        StringBuilder sb = new StringBuilder();
-        sb.deleteCharAt(sb.length()-1);
-        DisjointSet ds = new DisjointSet(7);
-        ds.unionBySize(1,2);
-        ds.unionBySize(2,3);
-        ds.unionBySize(4,5);
-        ds.unionBySize(6,7);
-        ds.unionBySize(5,6);
+        String s = "kat";
+        StringBuilder sb = new StringBuilder(s);
+//        sb.delete();
+        sb.insert(0, 'e');
+        
+        System.out.println(sb);
 
-        if(ds.findUParent(3) == ds.findUParent(7)){
-            System.out.println("connected");
-        }
-        else System.out.println("not connected");
-
-        ds.unionByRank(3,7);
-
-        if(ds.findUParent(3) == ds.findUParent(7)){
-            System.out.println("connected");
-        }
-        else System.out.println("not connected");
     }
 }
