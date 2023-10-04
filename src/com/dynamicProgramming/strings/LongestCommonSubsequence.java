@@ -1,4 +1,4 @@
-package com.dynamicProgramming;
+package com.dynamicProgramming.strings;
 
 /**
  * Given 2 strings, return the length (int) of the longest common subsequence/separate elements
@@ -6,8 +6,8 @@ package com.dynamicProgramming;
  */
 public class LongestCommonSubsequence {
     public static void main(String[] args) {
-        String str1 = "abcded";
-        String str2 = "ababdedc";
+        String str1 = "abc";
+        String str2 = "cde";
 
         int n = str1.length();
         int m = str2.length();

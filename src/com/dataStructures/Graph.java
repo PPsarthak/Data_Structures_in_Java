@@ -465,7 +465,8 @@ class Graph {
     }
     public static void main(String[] args) {
         HashMap<Integer, Integer> map = new HashMap<>();
-        List<Integer> myList = new ArrayList<>();
+        List<Integer> myList = new Vector<>();
+        myList.set
         Set<Integer> set = new HashSet<>();
         String s = "kat";
         StringBuilder sb = new StringBuilder(s);

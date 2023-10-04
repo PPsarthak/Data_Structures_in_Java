@@ -31,28 +31,42 @@ class ListNode {
     }
 }
 class Solution{
-    public String decodeAtIndex(String s, int k) {
-        StringBuilder sb = new StringBuilder();
-        boolean flag = false;
-        int i = 0;
-        while(i<s.length()){
-            if(i == k-1 && !flag){
-                return Character.toString(s.charAt(i));
-            }
-            if((int)(s.charAt(i))>49 && (int)(s.charAt(i))<58){
-                int num = ((int)(s.charAt(i))) - 48;
-                String s1 = sb.toString();
-                sb.append(s1.repeat(Math.max(0, num - 2)));
-            }
-            else{
-                sb.append(s.charAt(i));
+    List<List<Integer>> ans = new ArrayList<>();
+    public List<List<Integer>> pacificAtlantic(int[][] graph) {
+        for(int i=0; i<graph.length; i++){
+            for(int j=0; j<graph[0].length; j++){
 
             }
-            i++;
+        }
+        return ans;
+    }
+    boolean pacific(int[][] graph, int i, int j, int prev){
+        if(i<1 || j<1) return true;
+        if(graph[i][j] < prev) return false;
+
+        //top
+        if(pacific(graph, i-1, j, graph[i][j])){
+            return true;
         }
 
-        return sb.toString();
+        //bottom
+        if(pacific(graph, i+1, j, graph[i][j])){
+            return true;
+        }
+
+        //right
+        if(pacific(graph, i, j+1, graph[i][j])){
+            return true;
+        }
+
+        //left
+        if(pacific(graph, i, j-1, graph[i][j])){
+            return true;
+        }
+
+        return false;
     }
+
 }
 
 public class LeetCode {
@@ -60,7 +74,8 @@ public class LeetCode {
         Solution solution = new Solution();
         int[] llArr = {1,2,3,4,5};
         ListNode head = getLL(llArr);
-
+        int[][] heights = {{1,2,2,3,5},{3,2,3,4,4},{2,4,5,3,1},{6,7,1,4,5},{5,1,1,2,4}};
+        solution.pacificAtlantic(heights);
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {
