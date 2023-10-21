@@ -8,6 +8,27 @@ import java.util.Arrays;
  * in both strings
  */
 public class LongestCommonSubsequence {
+    //very imp point of difference 👇
+    /*
+     * Please note here, the tabulation is different from the Longest Common Substring
+     * for eg, assume you have this matrix
+     *        b  d  e  k
+          [0, 0, 0, 0, 0],
+        a [0, 0, 0, 0, 0],
+        b [0, 1, 1, 1, 1],
+        c [0, 1, 1, 1, 1],
+        d [0, 1, 2, 2, 2],
+        e [0, 1, 2, 3*, 3],
+        g [0, 1, 2, 3, 3],
+        k [0, 1, 2, 3, 4],
+        m [0, 1, 2, 3, 4]
+     *
+     * Here, please see the element marked with *
+     * this 1 indicates that from i=0 to i=i for string1, only 3 char matches with
+     * string 2 from j=0 to j=j
+     *
+     * Cross-check := str1 = abcde and str2 = bde
+     */
     public static void main(String[] args) {
         String str1 = "abcdegkm";
         String str2 = "bdek";
@@ -81,6 +102,7 @@ public class LongestCommonSubsequence {
         }
 
         //my code for printing subsequence
+        System.out.println(Arrays.deepToString(dp));
         int max = 0;
         StringBuilder sb = new StringBuilder();
         for (int i = 1; i < dp.length; i++) {
@@ -97,16 +119,16 @@ public class LongestCommonSubsequence {
 }
 
 /*
-
-  a b c d g e k
-c 0 0 0 0 0 0 0
-d 0 0 0 0 0 0 0
-e 1 1 1 1 1 1 1
-f 1 2 2 2 2 2 2
-g 1 2 2 2 3 3 3
-x 1 2 3 3 3 3 3
-z 1 1 2 3 3 3 3
-
-String str1 = "abcdgek";
-String str2 = "cdefgxz";
+"abcdegkm"
+"bdek"
+      b  d  e  k
+  [0, 0, 0, 0, 0],
+a [0, 0, 0, 0, 0],
+b [0, 1, 1, 1, 1],
+c [0, 1, 1, 1, 1],
+d [0, 1, 2, 2, 2],
+e [0, 1, 2, 3, 3],
+g [0, 1, 2, 3, 3],
+k [0, 1, 2, 3, 4],
+m [0, 1, 2, 3, 4]
  */
