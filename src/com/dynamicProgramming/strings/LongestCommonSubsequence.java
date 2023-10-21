@@ -1,13 +1,16 @@
 package com.dynamicProgramming.strings;
 
+import java.util.Arrays;
+
 /**
+ * STRIVER DP-25 + My own implementation of DP-26
  * Given 2 strings, return the length (int) of the longest common subsequence/separate elements
  * in both strings
  */
 public class LongestCommonSubsequence {
     public static void main(String[] args) {
-        String str1 = "abc";
-        String str2 = "cde";
+        String str1 = "abcdegkm";
+        String str2 = "bdek";
 
         int n = str1.length();
         int m = str2.length();
@@ -19,10 +22,10 @@ public class LongestCommonSubsequence {
             }
         }
 
-        System.out.println(memoize(dp, n-1, m-1, str1, str2));
+//        System.out.println(memoize(dp, n-1, m-1, str1, str2));
 
 
-        System.out.println(tabulate(str1, str2));
+        System.out.println("Length of longest common subsequence " + tabulate(str1, str2));
     }
 
     /**
@@ -61,16 +64,12 @@ public class LongestCommonSubsequence {
         int m = str2.length();
 
         int[][] dp = new int[n+1][m+1];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                dp[i][j] = -1;
-            }
-        }
+        for(int[] i : dp) Arrays.fill(i, -1);
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i <= n; i++) {
             dp[i][0] = 0;
         }
-        for(int j = 0; j < m; j++){
+        for(int j = 0; j <= m; j++){
             dp[0][j] = 0;
         }
 
@@ -80,6 +79,34 @@ public class LongestCommonSubsequence {
                 else dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
             }
         }
+
+        //my code for printing subsequence
+        int max = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if(dp[i][j] > max){
+                    max = dp[i][j];
+                    sb.append(str1.charAt(i-1));
+                }
+            }
+        }
+        System.out.println("Longest common subsequence: "  + sb);
         return dp[n][m];
     }
 }
+
+/*
+
+  a b c d g e k
+c 0 0 0 0 0 0 0
+d 0 0 0 0 0 0 0
+e 1 1 1 1 1 1 1
+f 1 2 2 2 2 2 2
+g 1 2 2 2 3 3 3
+x 1 2 3 3 3 3 3
+z 1 1 2 3 3 3 3
+
+String str1 = "abcdgek";
+String str2 = "cdefgxz";
+ */
