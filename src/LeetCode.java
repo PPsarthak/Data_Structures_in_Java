@@ -31,40 +31,26 @@ class ListNode {
     }
 }
 class Solution{
-    List<List<Integer>> ans = new ArrayList<>();
-    public List<List<Integer>> pacificAtlantic(int[][] graph) {
-        for(int i=0; i<graph.length; i++){
-            for(int j=0; j<graph[0].length; j++){
+    public int maximumScore(int[] nums, int k) {
+        int ans = nums[k];
+        int min = nums[k];
 
+        int i=k, j=k;
+
+        while(i >=0 || j<nums.length){
+            if(i == 0) j++;
+            else if(j == nums.length-1) i--;
+            else if(nums[i-1] > nums[j+1]){
+                i--;
+                min = Math.min(min, nums[i]);
             }
+            else{
+                j++;
+                min = Math.min(min, nums[j]);
+            }
+            ans = Math.max(min*(j-i+1), ans);
         }
         return ans;
-    }
-    boolean pacific(int[][] graph, int i, int j, int prev){
-        if(i<1 || j<1) return true;
-        if(graph[i][j] < prev) return false;
-
-        //top
-        if(pacific(graph, i-1, j, graph[i][j])){
-            return true;
-        }
-
-        //bottom
-        if(pacific(graph, i+1, j, graph[i][j])){
-            return true;
-        }
-
-        //right
-        if(pacific(graph, i, j+1, graph[i][j])){
-            return true;
-        }
-
-        //left
-        if(pacific(graph, i, j-1, graph[i][j])){
-            return true;
-        }
-
-        return false;
     }
 
 }
@@ -74,8 +60,8 @@ public class LeetCode {
         Solution solution = new Solution();
         int[] llArr = {1,2,3,4,5};
         ListNode head = getLL(llArr);
-        int[][] heights = {{1,2,2,3,5},{3,2,3,4,4},{2,4,5,3,1},{6,7,1,4,5},{5,1,1,2,4}};
-        solution.pacificAtlantic(heights);
+
+        System.out.println(solution.maximumScore(new int[]{1,4,3,7,4,5}, 3));
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {
