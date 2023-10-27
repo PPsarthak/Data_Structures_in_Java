@@ -31,26 +31,41 @@ class ListNode {
     }
 }
 class Solution{
-    public int maximumScore(int[] nums, int k) {
-        int ans = nums[k];
-        int min = nums[k];
+    int temp = Integer.MAX_VALUE;
+    public int[][] updateMatrix(int[][] mat) {
+        int[][] ans = new int[mat.length][mat[0].length];
 
-        int i=k, j=k;
-
-        while(i >=0 || j<nums.length){
-            if(i == 0) j++;
-            else if(j == nums.length-1) i--;
-            else if(nums[i-1] > nums[j+1]){
-                i--;
-                min = Math.min(min, nums[i]);
+        for(int i=0; i<mat.length; i++){
+            for(int j=0; j<mat[0].length; j++){
+                if(mat[i][j]!=0){
+                    System.out.println(i +" " + j);
+                    ans[i][j] = myDFS(i, j, 0, mat);
+                }
             }
-            else{
-                j++;
-                min = Math.min(min, nums[j]);
-            }
-            ans = Math.max(min*(j-i+1), ans);
         }
+
         return ans;
+    }
+    int myDFS(int i, int j, int count, int[][] grid){
+        if(i<0 || j<0 || i>=grid.length || j>=grid[0].length){
+            return (int)(1e8);
+        }
+        if(grid[i][j] == 0){
+            return count;
+        }
+        int a = myDFS(i, j-1, count+1, grid);
+        temp = Math.min(a, temp);
+
+        int b = myDFS(i-1, j, count+1, grid);
+        temp = Math.min(b, temp);
+
+        int c = myDFS(i, j+1, count+1, grid);
+        temp = Math.min(c, temp);
+
+        int d = myDFS(i+1, j, count+1, grid);
+        temp = Math.min(d, temp);
+
+        return Math.min(a,Math.min(b, Math.min(c, d)));
     }
 
 }
@@ -61,7 +76,8 @@ public class LeetCode {
         int[] llArr = {1,2,3,4,5};
         ListNode head = getLL(llArr);
 
-        System.out.println(solution.maximumScore(new int[]{1,4,3,7,4,5}, 3));
+        int[][] grid = {{0,0,0}, {0,1,0}, {1,1,1}};
+        System.out.println(Arrays.deepToString(solution.updateMatrix(grid)));
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {

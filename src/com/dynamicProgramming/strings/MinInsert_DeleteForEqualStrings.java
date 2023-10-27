@@ -4,9 +4,24 @@ import java.util.Arrays;
 
 public class MinInsert_DeleteForEqualStrings {
     public static void main(String[] args) {
-        String str1 = "abcdefhg";
-        String str2 = "abcfedg";
-        System.out.println(tabulate(str1,str2));
+        String str1 = "abcd";
+        String str2 = "anc";
+
+        //any string can be converted to another by appending str2 to str1 and str1 to str2
+        //therefore, in any case the max no of operations := n+m
+
+
+        //Approach
+        //to convert abcd to anc, we need to delete the chars which are not common in the 2 strings
+        //from str1 := so b and d gets deleted
+        //then we need to insert the chars which not common in the 2 strings from str2
+        // so n is inserted
+
+        int lcs = tabulate(str1, str2);
+        System.out.println("The length of lcs: " + lcs);
+        System.out.println("The no of deletions: " + (str1.length() - lcs));
+        System.out.println("The no of insertions: " + (str2.length() - lcs));
+        System.out.println("Total steps: " + (str1.length()+str2.length()-lcs-lcs));
     }
     static int tabulate(String str1, String str2){
         int n = str1.length();
