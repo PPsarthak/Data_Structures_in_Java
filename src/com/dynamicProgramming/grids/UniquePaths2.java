@@ -44,7 +44,7 @@ public class UniquePaths2 {
         return dp[m][n];
     }
 
-        static int memoize(int[][] dp, int i, int j, int[][] grid){
+    static int memoize(int[][] dp, int i, int j, int[][] grid){
         if(i<0 || j<0 || grid[i][j] == 1){
             return 0;
         }

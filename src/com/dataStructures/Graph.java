@@ -314,6 +314,18 @@ class Graph {
             this.distance = distance;
         }
     }
+
+    /**
+     * USED ONLY IN ** DIRECTED ** GRAPHS
+     * used to find the shortest path in directed graph + detect a negative weight cycle
+     * @param V no of nodes
+     * @param edges weighted edge list
+     * @param source source node
+     * @return array of min distances of all nodes from source node
+     * @TimeComplexity O(V*E): V iterations for relaxation where we travel/relax all edges
+     * @SpaceComplexity O(V): distance array
+     */
+    // Striver G-41: https://youtu.be/0vVofAhAYjc?feature=shared&t=304
     static int[] bellmanFord(int V, List<List<Integer>> edges, int source){
         int[] dist = new int[V];
         Arrays.fill(dist, (int)(1e9));
@@ -465,13 +477,18 @@ class Graph {
     }
     public static void main(String[] args) {
         HashMap<Integer, Integer> map = new HashMap<>();
+        int[] nums = {2,2,3,3,3,4};
+        for(int i : nums){
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+        map.remove(3);
+        System.out.println(map);
         List<Integer> myList = new Vector<>();
         Set<Integer> set = new HashSet<>();
         String s = "kat";
         StringBuilder sb = new StringBuilder(s);
-//        sb.delete();
         sb.insert(0, 'e');
-        
+
         System.out.println(sb);
 
     }

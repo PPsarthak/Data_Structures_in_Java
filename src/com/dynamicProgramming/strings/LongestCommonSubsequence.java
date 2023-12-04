@@ -47,6 +47,9 @@ public class LongestCommonSubsequence {
 
 
         System.out.println("Length of longest common subsequence " + tabulate(str1, str2));
+
+        StringBuilder sb = new StringBuilder("abcdefgh");
+
     }
 
     /**

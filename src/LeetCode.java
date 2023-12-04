@@ -31,43 +31,47 @@ class ListNode {
     }
 }
 class Solution{
-    int temp = Integer.MAX_VALUE;
-    public int[][] updateMatrix(int[][] mat) {
-        int[][] ans = new int[mat.length][mat[0].length];
+    public int garbageCollection(String[] garbage, int[] travel) {
+        int gTime = 0;
+        int pTime = 0;
+        int mTime = 0;
 
-        for(int i=0; i<mat.length; i++){
-            for(int j=0; j<mat[0].length; j++){
-                if(mat[i][j]!=0){
-                    System.out.println(i +" " + j);
-                    ans[i][j] = myDFS(i, j, 0, mat);
+        for(int j=0; j<garbage.length; j++){
+            String s = garbage[j];
+
+            boolean gFlag = false;
+            boolean pFlag = false;
+            boolean mFlag = false;
+
+            for(int i=0; i<s.length(); i++){
+                char c = s.charAt(i);
+
+                if(c == 'G'){
+                    gTime++;
+                    gFlag = true;
                 }
+                if(c == 'P'){
+                    pTime++;
+                    pFlag = true;
+                }
+                if(c == 'M'){
+                    mTime++;
+                    mFlag = true;
+                }
+            }
+            if(j>0){
+                if(gFlag) gTime+=travel[j-1];
+                if(pFlag) pTime+=travel[j-1];
+                if(mFlag) mTime+=travel[j-1];
             }
         }
 
-        return ans;
+        System.out.println(gTime);
+        System.out.println(pTime);
+        System.out.println(mTime);
+
+        return 0;
     }
-    int myDFS(int i, int j, int count, int[][] grid){
-        if(i<0 || j<0 || i>=grid.length || j>=grid[0].length){
-            return (int)(1e8);
-        }
-        if(grid[i][j] == 0){
-            return count;
-        }
-        int a = myDFS(i, j-1, count+1, grid);
-        temp = Math.min(a, temp);
-
-        int b = myDFS(i-1, j, count+1, grid);
-        temp = Math.min(b, temp);
-
-        int c = myDFS(i, j+1, count+1, grid);
-        temp = Math.min(c, temp);
-
-        int d = myDFS(i+1, j, count+1, grid);
-        temp = Math.min(d, temp);
-
-        return Math.min(a,Math.min(b, Math.min(c, d)));
-    }
-
 }
 
 public class LeetCode {
@@ -76,8 +80,10 @@ public class LeetCode {
         int[] llArr = {1,2,3,4,5};
         ListNode head = getLL(llArr);
 
-        int[][] grid = {{0,0,0}, {0,1,0}, {1,1,1}};
-        System.out.println(Arrays.deepToString(solution.updateMatrix(grid)));
+        String[] garbage = {"G","P","GP","GG"};
+        int[] travel = {2,4,3};
+
+        System.out.println(solution.garbageCollection(garbage,travel));
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {

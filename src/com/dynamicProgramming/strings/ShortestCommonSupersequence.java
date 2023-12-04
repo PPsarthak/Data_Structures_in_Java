@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 public class ShortestCommonSupersequence {
     public static void main(String[] args) {
-        String str1 = "abac";
-        String str2 = "cab";
+        String str1 = "brute";
+        String str2 = "groot";
+        System.out.println(shortestCommonSupersequence(str1, str2));
     }
     static String shortestCommonSupersequence(String str1, String str2) {
         int n = str1.length();

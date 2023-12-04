@@ -1,7 +1,7 @@
 public class KadaneAlgorithm {
     public static void main(String[] args) {
-        int[] myArr = {1,5,233,7};
-
+        int[] myArr = {2, -4, 1, 9, -6, 7, -3};
+        maxSubArraySum(myArr);
     }
     static int maxProduct(int[] nums) {
         int maxProduct = Integer.MIN_VALUE, currentProduct = 1;
@@ -16,12 +16,12 @@ public class KadaneAlgorithm {
         }
         return maxProduct;
     }
-    static void maxSubArraySum(int a[]){
+    static void maxSubArraySum(int arr[]){
         int maxSum = Integer.MIN_VALUE, currentSum = 0;
         int start = 0, end = 0, s = 0;
 
-        for (int i = 0; i < a.length; i++) {
-            currentSum += a[i];
+        for (int i = 0; i < arr.length; i++) {
+            currentSum += arr[i];
 
             if (maxSum < currentSum) {
                 maxSum = currentSum;
