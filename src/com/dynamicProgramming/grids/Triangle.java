@@ -2,6 +2,10 @@ package com.dynamicProgramming.grids;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-11
+ * Fixed Start point and variable ending point
+ */
 public class Triangle {
     public static void main(String[] args) {
         int[][] grid = {

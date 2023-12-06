@@ -2,6 +2,11 @@ package com.dynamicProgramming.DP2D;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-7
+ * Given a Nx3 matrix goal is to get max sum by selecting one value from each row s.t.
+ * no 2 values having same column is chosen
+ */
 public class NinjaTraining {
     public static void main(String[] args) {
         int[][] arr = {
