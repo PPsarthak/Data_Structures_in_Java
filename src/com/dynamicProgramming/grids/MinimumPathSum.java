@@ -2,7 +2,7 @@ package com.dynamicProgramming.grids;
 
 import java.util.Arrays;
 /**
- * Based on Leetcode 64 := Min Path Sum
+ * Based on DP-10, Leetcode 64 := Min Path Sum
  * Given a 2D matrix find the path with min sum from 0,0 to m,n
  */
 public class MinimumPathSum {
