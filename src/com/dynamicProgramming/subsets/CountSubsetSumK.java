@@ -2,6 +2,13 @@ package com.dynamicProgramming.subsets;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-17
+ * Here we are given an array, and we have to count the subset with sum = k
+ *
+ * FOLLOW UP: THE CODE WORKS ONLY IF arr[i] > 0
+ *            IF THERE ARE ZEROES IN YOUR ARRAY, JUST REMOVE THE SUM == 0 BASE CASE
+ */
 public class CountSubsetSumK {
     public static void main(String[] args) {
         int[] arr = {1,2,3,4,5};
@@ -17,7 +24,7 @@ public class CountSubsetSumK {
         System.out.println(tabulate(arr, k));
     }
     static int recursive(int[] arr, int index, int sum){
-        if(sum == 0) return 1;
+        if(sum == 0) return 1;  //remove this case if array contains 0
         if(index == 0){
             if(arr[index] == sum) return 1;
             else return 0;
@@ -33,7 +40,7 @@ public class CountSubsetSumK {
         return ans;
     }
     static int memoize(int[] arr, int index, int sum, int[][] dp){
-        if(sum == 0) return 1;
+        if(sum == 0) return 1; //remove this case if array contains 0
         if(index == 0){
             if(arr[index] == sum) return 1;
             else return 0;
@@ -52,9 +59,12 @@ public class CountSubsetSumK {
     }
     static int tabulate(int[] arr, int k){
         int[][] dp = new int[arr.length][k+1];
+
+        //remove this case if array contains 0
         for (int i = 0; i < arr.length; i++) {
             dp[i][0] = 1;
         }
+
         dp[0][arr[0]] = 1;
 
         for (int index = 1; index < arr.length; index++) {
