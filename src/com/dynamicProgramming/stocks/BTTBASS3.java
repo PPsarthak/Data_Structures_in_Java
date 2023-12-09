@@ -2,9 +2,14 @@ package com.dynamicProgramming.stocks;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-37
+ * Same as BTTBASS-2 but here we can perform at most 2 transactions
+ * Hence, this becomes a 3D DP Problem
+ */
 public class BTTBASS3 {
     public static void main(String[] args) {
-        int[] arr = {};
+        int[] arr = {3,3,5,0,0,3,1,4};
 
         int[][][] dp = new int[arr.length][2][3];
         for(int[][] i : dp) for(int[] j : i) Arrays.fill(j,-1);
