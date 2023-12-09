@@ -2,6 +2,10 @@ package com.dynamicProgramming.stocks;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-38
+ * Same as BTBASS 3 but with max k number of transactions
+ */
 public class BTTBASS4 {
     public static void main(String[] args) {
         int[] arr = {3,3,5,0,0,3,1,4};
