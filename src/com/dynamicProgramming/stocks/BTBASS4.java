@@ -2,20 +2,17 @@ package com.dynamicProgramming.stocks;
 
 import java.util.Arrays;
 
-/**
- * Based on DP-37
- * Same as BTTBASS-2 but here we can perform at most 2 transactions
- * Hence, this becomes a 3D DP Problem
- */
-public class BTTBASS3 {
+public class BTBASS4 {
     public static void main(String[] args) {
         int[] arr = {3,3,5,0,0,3,1,4};
+        int k = 2;
 
-        int[][][] dp = new int[arr.length][2][3];
+        int[][][] dp = new int[arr.length][2][k+1];
         for(int[][] i : dp) for(int[] j : i) Arrays.fill(j,-1);
 
-        System.out.println(recursive(arr,0, true, 2));
-        System.out.println(memoize(arr,0,1,2,dp));
+        System.out.println(recursive(arr,0, true, k));
+        System.out.println(memoize(arr,0,1,k,dp));
+        System.out.println(tabulate(arr,k));
     }
     static int recursive(int[] arr, int index, boolean canBuy, int cap){
         if(cap == 0) return 0;
@@ -57,15 +54,15 @@ public class BTTBASS3 {
 
         return dp[index][canBuy][cap]=profit;
     }
-    static int tabulate(int[] arr){
-        int[][][] dp = new int[arr.length+1][2][3];
+    static int tabulate(int[] arr, int k){
+        int[][][] dp = new int[arr.length+1][2][k+1];
 
         // there are 2 base cases, both return 0 => now all values are zeroes,
         // hence we skip writing base case
 
         for(int index = arr.length-1; index>=0; index--){
             for (int canBuy = 0; canBuy <= 1; canBuy++) {
-                for (int cap = 1; cap <= 2 ; cap++) {
+                for (int cap = 1; cap <= k ; cap++) {
                     int profit = 0;
 
                     if(canBuy == 1){
@@ -84,6 +81,6 @@ public class BTTBASS3 {
             }
         }
 
-        return dp[0][1][2];
+        return dp[0][1][k];
     }
 }
