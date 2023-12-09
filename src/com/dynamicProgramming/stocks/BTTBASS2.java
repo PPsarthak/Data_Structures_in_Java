@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class BTTBASS2 {
     public static void main(String[] args) {
-        int[] arr = {7,1,3,5,4,3,6}; // ans:= 1 and 5 + 3 and 6 => 4 + 3 = 7
+        int[] arr = {7,1,3,5,4,3,6};
 
         System.out.println(recursive(arr, 0, true));
 
@@ -24,6 +24,8 @@ public class BTTBASS2 {
 
         System.out.println(memoize(arr, 0, 1, dp));
 
+        System.out.println(tabulate(arr));
+
         System.out.println(fuckingFast(arr));
     }
     static int fuckingFast(int[] arr){
@@ -31,7 +33,7 @@ public class BTTBASS2 {
         int profit = 0;
         for (int i = 0; i < (arr.length-1); i++){
             if (arr[i] < arr[i+1]){
-                System.out.println(arr[i+1] + " " + arr[i]);
+//                System.out.println(arr[i+1] + " " + arr[i]);
                 profit += arr[i+1] - arr[i];
             }
         }
@@ -74,5 +76,31 @@ public class BTTBASS2 {
         }
 
         return dp[index][canBuy]=profit;
+    }
+    static int tabulate(int[] arr){
+        int[][] dp = new int[arr.length+1][2];
+
+        //both are already zero but still just to show the base case
+        dp[arr.length][0] = 0;
+        dp[arr.length][1] = 0;
+
+        for(int index = arr.length-1; index >= 0; index--){
+            for(int canBuy = 0; canBuy<= 1; canBuy++){
+                int profit = 0;
+                if(canBuy == 1){
+                    int notBuy = dp[index+1][1];
+                    int buy = dp[index+1][0] - arr[index];
+                    profit = Math.max(profit, Math.max(buy, notBuy));
+                }
+                else{
+                    int notSell = dp[index+1][0];
+                    int sell = arr[index] + dp[index+1][1];
+                    profit = Math.max(profit, Math.max(sell, notSell));
+                }
+                dp[index][canBuy] = profit;
+            }
+        }
+
+        return dp[0][1];
     }
 }
