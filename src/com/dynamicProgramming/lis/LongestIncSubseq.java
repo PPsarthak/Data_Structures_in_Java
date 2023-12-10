@@ -2,11 +2,15 @@ package com.dynamicProgramming.lis;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-41
+ * Given an array, print the length of the longest increasing subsequence in the arr
+ */
 public class LongestIncSubseq {
     public static void main(String[] args) {
-        int[] arr = {10,9,2,5,3,7,101,18};
+        int[] arr = {10,9,2,5,3,7,101,18}; //ans := 2,3,7,18
 
-        System.out.println(recursive(arr, 0, -1));
+//        System.out.println(recursive(arr, 0, -1));
 
         int[][] dp = new int[arr.length][arr.length+1];
         for (int[] i : dp) Arrays.fill(i, -1);

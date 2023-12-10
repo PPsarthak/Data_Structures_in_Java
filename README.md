@@ -20,15 +20,15 @@ The dataStructures package contains essential data structures implemented in Jav
 ### Dynamic Programming
 The dynamicProgramming package further categorizes dynamic programming algorithms into subpackages based on their similarities:
 
-#### DP1D: One-dimensional dynamic programming problems.
-#### DP2D: Two-dimensional dynamic programming problems.
-#### DP3D: Three-dimensional dynamic programming problems.
-#### strings: Dynamic programming problems related to strings.
+#### DP1D: One-dimensional DP problems.
+#### DP2D: Two-dimensional DP problems.
+#### DP3D: Three-dimensional DP problems.
+#### strings: DP problems related to strings.
 #### subsets: Problems involving subsets.
-#### stocks: Dynamic programming problems related to stock trading.
-#### grids: Dynamic programming problems on grids.
-#### lis: Dynamic programming solution for the longest increasing subsequence problem.
-#### partition: Problems related to partition dynamic programming.
+#### stocks: DP problems related to stock trading.
+#### grids: DP problems on grids.
+#### lis: DP problems for the longest increasing subsequence problem.
+#### partition: Problems related to partition DP.
 
 ### Algorithms
 In addition to data structures, the src folder includes various algorithm implementations directly. These include popular algorithms like:
