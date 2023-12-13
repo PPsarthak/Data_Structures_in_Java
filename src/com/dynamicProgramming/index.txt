@@ -25,5 +25,5 @@ DP-42: Printing the Longest Increasing Subsequence + More Optimized Way of getti
 DP-43: Longest Increasing Subsequence using Binary Search
         :=> (lis > BS_LIS)
 DP-44: Longest Divisible Subset
-        :=> (list > LargestDivSubset)
+        :=> (lis > LargestDivSubset)
 DP-45:
