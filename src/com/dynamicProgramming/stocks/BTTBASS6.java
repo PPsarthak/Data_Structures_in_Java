@@ -2,6 +2,10 @@ package com.dynamicProgramming.stocks;
 
 import java.util.Arrays;
 
+/**
+ * Based on DP-40
+ * Same as BTBASS5, (i.e., with a cooldown) but we have to pay a transaction fee when selling
+ */
 public class BTTBASS6 {
     public static void main(String[] args) {
         int[] arr = {1,3,2,8,4,9};
