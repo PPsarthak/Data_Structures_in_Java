@@ -1,6 +1,7 @@
 package com.dynamicProgramming.lis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,67 +11,65 @@ import java.util.List;
 
 public class PrintLIS {
     public static void main(String[] args) {
-        int[] arr = {10,9,2,5,3,7,101,18}; //ans := 2,3,7,18
+        int[] arr = {5,4,11,1,16,8}; //ans := 5,11,16 or 4,11,16
+        System.out.println(preRequisite(arr));
+        printLIS(arr);
     }
-    static int tabulate(int[] arr){
-        int[][] dp = new int[arr.length+1][arr.length+1];
+    static int preRequisite(int[] arr){
+        //5,4,11,1,16,8
+        //1 1  2 1  3 2 := 11 => 2 meaning longest LIS till 11 is of len = 2
+        //each element tells us how long the lis is from this index
+        int[] dp = new int[arr.length];
+        Arrays.fill(dp, 1);
 
-        //base case := unnecessary since all are already zero but still ...
-        for (int i = 0; i < dp[0].length; i++) {
-            dp[arr.length][i] = 0;
-        }
-
-        for(int index=arr.length-1; index>=0; index--){
-            for(int prev=index-1; prev>=-1; prev--){
-                //not picked
-                int ans = dp[index+1][prev+1];
-                if(prev == -1 || arr[index] > arr[prev]){
-                    ans = Math.max(ans,1+dp[index+1][index+1]);
-                }
-                dp[index][prev+1] = ans;
-            }
-        }
-
-//        System.out.println(Arrays.deepToString(dp));
-
-        //printing LIS
-        int max = Integer.MIN_VALUE;
-
-        int i = dp.length-1;
-        int j = dp[0].length-1;
-
-        List<Integer> list = new ArrayList<>();
-        while (i>=0 && j>0){
-            if(dp[i][j]>max){
-                list.add(0,arr[j-1]);
-                max = dp[i][j];
-                i--;
-                j--;
-            }
-            else{
-                //compare left and top, and move in dir which is greater
-                if(dp[i-1][j]>dp[i][j-1]){
-                    i--;
-                }
-                else{
-                    j--;
+        for(int i=1; i< arr.length; i++){
+            for (int j = 0; j < i; j++) {
+                if(arr[j]<arr[i]){
+                    dp[i] = Math.max(dp[i], 1+dp[j]);
                 }
             }
         }
-        System.out.println(list);
-        return dp[0][0];
+
+        //getting the max
+        int max = 0;
+        for(int i : dp) max = Math.max(i, max);
+
+        return max;
+    }
+    static void printLIS(int[] arr){
+        //we use an extra array, in the previous approach, that stores the prev index of LIS
+        int[] dp = new int[arr.length];
+        Arrays.fill(dp, 1);
+
+        int[] prev = new int[arr.length];
+//        Arrays.fill(prev, 0);
+
+        for(int i=1; i< arr.length; i++){
+            for (int j = 0; j < i; j++) {
+                if(arr[j]<arr[i] && dp[i] < 1+dp[j]){
+                    dp[i] = 1+dp[j];
+                    prev[i] = j;
+                }
+            }
+        }
+
+        //get the index where the max val is present in dp
+        int index = -1;
+        int max = 0;
+        for(int i=0; i< arr.length; i++){
+            if(arr[i]>max){
+                max = arr[i];
+                index = i;
+            }
+        }
+
+        //now start hopping/backtracking from this index in the prev array
+        List<Integer> lis = new ArrayList<>();
+        while(prev[index]!=index){
+            lis.add(0, arr[index]);
+            index = prev[index];
+        }
+        lis.add(0,arr[index]);
+        System.out.println(lis);
     }
 }
-/*
-{10,9,2,5,3,7,101,18};
-    10 9  2  5  3  7 101 18
-[4, 0, 0, 0, 0, 0, 0, 0, 0],
-[4, 1, 0, 0, 0, 0, 0, 0, 0],
-[4, 1, 1, 0, 0, 0, 0, 0, 0],
-[3, 1, 1, 3, 0, 0, 0, 0, 0],
-[3, 1, 1, 3, 2, 0, 0, 0, 0],
-[2, 1, 1, 2, 2, 2, 0, 0, 0],
-[1, 1, 1, 1, 1, 1, 1, 0, 0],
-[1, 1, 1, 1, 1, 1, 1, 0, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0]]
- */
