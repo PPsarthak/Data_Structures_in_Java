@@ -26,4 +26,16 @@ DP-43: Longest Increasing Subsequence using Binary Search
         :=> (lis > BS_LIS)
 DP-44: Longest Divisible Subset
         :=> (lis > LargestDivSubset)
-DP-45:
+DP-45: Longest Increasing String Chain
+        :=> (lis > LongestIncStringChain)
+DP-46:
+
+DP-47:
+
+DP-48:
+
+DP-49:
+
+DP-50:
+
+DP-51:

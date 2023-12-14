@@ -6,6 +6,9 @@ import java.util.Comparator;
 /**
  * Based on DP-45
  * Given an array of string, get the longest increasing string chain
+ * Here, subsequence is not required i.e., you can select elements in any order
+ * For e.g., {"xbc", "pcxbcf", "xb", "cxbc", "pcxbc"}
+ *  Here, you can select := xb then xbc then cxbc, pcxbc, pcxbcf (ans = 5)
  */
 public class LongestIncStringChain {
     public static void main(String[] args) {
@@ -18,26 +21,22 @@ public class LongestIncStringChain {
         Arrays.fill(dp, 1);
 
         //additional step
-        Arrays.sort(arr, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length()-o2.length();
-            }
-        });
+        Arrays.sort(arr, (o1, o2) -> o1.length()-o2.length());
 
-        System.out.println(Arrays.toString(arr));
+//        System.out.println(Arrays.toString(arr));
 
-        for(int i=1; i< arr.length; i++){
+        int max = 1;
+
+        for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < i; j++) {
-                if(check(arr[i], arr[j])){
-                    dp[i] = Math.max(dp[i], 1+dp[j]);
+                if (check(arr[i], arr[j]) && 1 + dp[j] > dp[i]) {
+                    dp[i] = 1 + dp[j];
                 }
             }
+            if (dp[i] > max) {
+                max = dp[i];
+            }
         }
-
-        //getting the max
-        int max = 0;
-        for(int i : dp) max = Math.max(i, max);
 
         return max;
     }
@@ -47,8 +46,7 @@ public class LongestIncStringChain {
         int i = 0;
         int j = 0;
         while (i<s1.length()){
-            if(j == s2.length()) break;
-            if(s1.charAt(i) == s2.charAt(j)){
+            if(j < s2.length() && s1.charAt(i) == s2.charAt(j)){
                 i++;
                 j++;
             }
