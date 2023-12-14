@@ -28,8 +28,8 @@ DP-44: Longest Divisible Subset
         :=> (lis > LargestDivSubset)
 DP-45: Longest Increasing String Chain
         :=> (lis > LongestIncStringChain)
-DP-46:
-
+DP-46: Longest Bi-tonic Subsequence
+        :=> (lis > LongestBitonicSubseq)
 DP-47:
 
 DP-48:
