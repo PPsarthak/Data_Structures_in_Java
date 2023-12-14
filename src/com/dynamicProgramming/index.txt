@@ -1,35 +1,87 @@
-DP-1:
-DP-2:
+DP-1: Fibonacci
+        :=> (DP1D > Fibonacci)
+
+DP-2: Climbing stairs - count the number of ways of climbing
+        :=> (DP1D > ClimbingStairs)
+
+DP-3: Frog Jump - min cost of reaching start to end
+        :=> (DP1D > FrogJump)
+
+DP-4: Maximum sum of non-adjacent elements
+
+DP-5: House Robber
+        :=> (DP1D > HouseRobber)
+
+# 2D DP
+
+DP-7: Ninja Training
+        :=> (DP2D > NinjaTraining)
+
+# DP on Grids
+
+DP-8: Unique Paths from start pt to end pt
+        :=>  (grids > UniquePath)
+
+DP-9: Unique Paths from start pt to end pt with obstacles
+        :=>  (grids > UniquePaths2)
+
+DP-10: Minimum sum path from (0,0) to (m,n)
+        :=>  (grids > MinimumPathSum)
+
+DP-11: Unique path from fixed start point and variable ending point
+        :=>  (grids > Triangle)
+
+DP-12: Maximum Falling Path Sum (Variable starting point, variable ending point)
+        :=>  (grids > MaxFallingPathSum)
+
+# 3D DP
+
+DP-13: Cherry Pickup
+        :=> (DP3D > CherryPickup)
+DP-37: BTBASS 3
+        :=> (stocks > BTBASS3)
 
 # DP on Stocks
 
 DP-35: Buying and selling only once
         :=> (stocks > BTBASS1)
+
 DP-36: Buying and selling can be done unlimited times
         :=> (stocks > BTBASS2)
+
 DP-37: Buying and selling only 2 times
         :=> (stocks > BTBASS3)
+
 DP-38: Buying and selling 'k' no of times
         :=> (stocks > BTBASS4)
+
 DP-39: After selling, there is a cooldown of 1 day before buying again + can buy unlimited times
         :=> (stocks > BTBASS5)
+
 DP-40: Selling requires a transaction fee + cooldown
         :=> (stocks > BTBASS6)
+
 
 # DP on Longest Increasing Subsequence
 
 DP-41: Length of the Longest Increasing Subsequence
         :=> (lis > LongestIncSubseq)
+
 DP-42: Printing the Longest Increasing Subsequence + More Optimized Way of getting length of LIS
         :=> (lis > PrintLIS)
+
 DP-43: Longest Increasing Subsequence using Binary Search
         :=> (lis > BS_LIS)
+
 DP-44: Longest Divisible Subset
         :=> (lis > LargestDivSubset)
+
 DP-45: Longest Increasing String Chain
         :=> (lis > LongestIncStringChain)
+
 DP-46: Longest Bi-tonic Subsequence
         :=> (lis > LongestBitonicSubseq)
+
 DP-47:
 
 DP-48:

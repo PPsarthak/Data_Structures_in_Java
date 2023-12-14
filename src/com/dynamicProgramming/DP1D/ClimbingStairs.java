@@ -4,9 +4,7 @@ import java.util.Arrays;
 
 /**
  * Based on DP-2
- *
  * Here we count the number of ways
- *
  * REMEMBER: In Que where we have to count the number of ways, we generally return 0 or 1
  * based on whether the path is valid or not
  */
