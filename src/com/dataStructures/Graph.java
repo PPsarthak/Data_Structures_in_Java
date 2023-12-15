@@ -3,30 +3,6 @@ package com.dataStructures;
 import java.util.*;
 
 class Graph {
-    static List<Integer> componentBFS(int start, List<List<Integer>> adj){
-        List<Integer> traversal = new ArrayList<>();
-        boolean[] visited = new boolean[adj.size()];
-        for(int i=0; i<visited.length; i++){
-            if(!visited[i]) componentBFSUtil(i, traversal, adj, visited);
-        }
-        return traversal;
-    }
-    static void componentBFSUtil(int start, List<Integer> traversal,
-                                 List<List<Integer>> adj, boolean[] visited){
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        visited[start] = true;
-        while (!q.isEmpty()){
-            int temp = q.poll();
-            traversal.add(temp);
-            for(Integer i : adj.get(temp)){
-                if(!visited[i]){
-                    q.offer(i);
-                    visited[i] = true;
-                }
-            }
-        }
-    }
     /**
      * @param start starting vertex of traversal
      * @param n size of adj list
@@ -40,21 +16,31 @@ class Graph {
         List<Integer> bfs = new ArrayList<>();
         boolean[] visited = new boolean[n]; // n = no of vertices / nodes
         Queue<Integer> q = new LinkedList<>();
+
         q.offer(start);
         visited[start] = true;
+
         while (!q.isEmpty()){
+            //the next 2 lines are a part of "traversing a node"
+            //while "traversing a node", we poll it from the queue and add it to our ans
+
             int node = q.poll();
             bfs.add(node);
+
             for (Integer i : adj.get(node)){
                 //only if the node is not visited, we will add it to the queue and mark as visited
                 if(!visited[i]){
+                    //the next 2 lines are a part of "visiting a node"
+                    //while "visiting a node", we offer it to a queue and then mark it as visited
                     q.offer(i);
                     visited[i] = true;
                 }
             }
-
         }
         return bfs;
+
+        //when using bfs, there are 2 operations: traversing and visiting
+        //traversing happens just after a while loop and visiting inside for loop
     }
     static List<Integer> dfs(int start, int n, List<List<Integer>> adj){
         boolean[] visited = new boolean[n]; // n = no of nodes/vertices
@@ -78,9 +64,12 @@ class Graph {
         Stack<Integer> st = new Stack<>();
         st.push(start);
         while (!st.isEmpty()){
+            //here, unlike bfs where traversing and visiting is kept apart,
+            //traversing and visiting is done at the same time
             int vertex = st.pop();
             visited[vertex] = true;
             dfs.add(vertex);
+
             for(Integer i: adj.get(vertex)){
                 if(!visited[i]){
                     st.push(i);
@@ -88,6 +77,49 @@ class Graph {
             }
         }
         return dfs;
+    }
+    static int componentDFS(List<List<Integer>> adj){
+        int count = 0;
+        boolean[] visited = new boolean[adj.size()];
+        for(int i=0; i< adj.size(); i++){
+            if(!visited[i]){
+                componentDFSUtil(i, visited, adj);
+                count++;
+            }
+        }
+        return count;
+    }
+    static void componentDFSUtil(int node, boolean[] visited, List<List<Integer>> adj){
+        visited[node] = true;
+        for (Integer i : adj.get(node)){
+            if(!visited[i]){
+                componentDFSUtil(i, visited, adj);
+            }
+        }
+    }
+    static List<Integer> componentBFS(int start, List<List<Integer>> adj){
+        List<Integer> traversal = new ArrayList<>();
+        boolean[] visited = new boolean[adj.size()];
+        for(int i=0; i<visited.length; i++){
+            if(!visited[i]) componentBFSUtil(i, traversal, adj, visited);
+        }
+        return traversal;
+    }
+    static void componentBFSUtil(int start, List<Integer> traversal,
+                                 List<List<Integer>> adj, boolean[] visited){
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        visited[start] = true;
+        while (!q.isEmpty()){
+            int temp = q.poll();
+            traversal.add(temp);
+            for(Integer i : adj.get(temp)){
+                if(!visited[i]){
+                    q.offer(i);
+                    visited[i] = true;
+                }
+            }
+        }
     }
     /**
      * checks whether a graph is bipartite or not
