@@ -250,9 +250,12 @@ class Graph {
     static List<Integer> topoSort(List<List<Integer>> adj){
         boolean[] visited = new boolean[adj.size()];
         Stack<Integer> myStack = new Stack<>();
+
         for(int i=0; i<visited.length; i++){
-            if(!visited[i]) dfsTopo(i, adj, visited, myStack);
+            if(!visited[i])
+                dfsTopo(i, adj, visited, myStack);
         }
+
         List<Integer> dist = new ArrayList<>();
         while(!myStack.isEmpty()){
             dist.add(myStack.pop());
@@ -489,6 +492,53 @@ class Graph {
         }
         return ans;
     }
+    static int[] insertTime;
+    static int[] lowestTime;
+    static List<List<Integer>> tarjanAns = new ArrayList<>();
+    static List<List<Integer>> tarjan(List<List<Integer>> adj){
+        insertTime = new int[adj.size()];
+        lowestTime = new int[adj.size()];
+        boolean[] visited = new boolean[adj.size()];
+
+        //given graph can contain 1 or more component
+        //if it contains only 1, you can directly call dfs() but here
+        //I have assumed that it has 1+ component hence used a for loop
+        for (int i = 0; i < visited.length; i++) {
+            if(!visited[i]){
+                tarjanDFS(i, -1, visited, adj);
+            }
+        }
+        return tarjanAns;
+    }
+    static int time = 1;
+    static void tarjanDFS(int node, int parent, boolean[] visited, List<List<Integer>> adj){
+        visited[node] = true;
+
+        //default values
+        lowestTime[node] = time;
+        insertTime[node] = time;
+        time++;
+
+        //going for neighbours
+        for(Integer i : adj.get(node)){
+            if(i!=parent && !visited[i]){
+                tarjanDFS(i, node, visited, adj);
+
+                //compare the insertTime values of the 2 nodes
+                lowestTime[node] = Math.min(lowestTime[node], lowestTime[i]);
+
+                //checking if the lowest > insertTime
+                //i.e., if this is the only way to reach this node
+                if(lowestTime[i] > insertTime[node]){
+                    tarjanAns.add(Arrays.asList(i, node));
+                }
+            }
+            else if(i!=parent && visited[i]){
+                //compare the insertTime values of the 2 nodes
+                lowestTime[node] = Math.min(lowestTime[node], lowestTime[i]);
+            }
+        }
+    }
 
 
     //new codes go above ~ maintain 3 spaces
@@ -517,11 +567,12 @@ class Graph {
         System.out.println(map);
         List<Integer> myList = new Vector<>();
         Set<Integer> set = new HashSet<>();
-        String s = "kat";
+        String s = "anagram";
         StringBuilder sb = new StringBuilder(s);
-        sb.insert(0, 'e');
+        StringBuilder sb2 = new StringBuilder("nagaram");
 
-        System.out.println(sb);
+        sb.compareTo(sb2);
+        System.out.println(sb.compareTo(sb2));
 
     }
 }
