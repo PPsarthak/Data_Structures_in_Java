@@ -7,9 +7,11 @@ DP-2: Climbing stairs - count the number of ways of climbing
 DP-3: Frog Jump - min cost of reaching start to end
         :=> (DP1D > FrogJump)
 
-DP-4: Maximum sum of non-adjacent elements
+DP-4: Frog Jump with K distance
 
-DP-5: House Robber
+DP-5: Maximum sum of non-adjacent elements
+
+DP-6: House Robber 2
         :=> (DP1D > HouseRobber)
 
 # 2D DP
@@ -82,7 +84,8 @@ DP-45: Longest Increasing String Chain
 DP-46: Longest Bi-tonic Subsequence
         :=> (lis > LongestBitonicSubseq)
 
-DP-47:
+DP-47: Number of the Longest Increasing Subsequence
+        :=> (lis > NoOfLIS)
 
 DP-48:
 

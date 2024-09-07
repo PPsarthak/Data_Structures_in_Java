@@ -1,0 +1,46 @@
+SOLID design principles encourage us to create more maintainable, understandable, and flexible software. Consequently, as our applications grow in size, we can reduce their complexity
+
+i. Single Responsibility:
+    A class should only have 1 responsibility; and hence further only 1 reason to change
+    Advantages:
+        Testing – A class with one responsibility will have far fewer test cases.
+        Lower coupling – Less functionality in a single class will have fewer dependencies.
+        Organization – Smaller, well-organized classes are easier to search than monolithic ones.
+
+ii. Open for Extension/Closed for Modification:
+    i.e., when adding an additional feature to existing class, instead of modifying create a class that inherits that and add the feature there
+
+iii. Liskov Substitution:
+    You should be able to substitute the base class with child class
+    For eg., if  Vehicle is an interface and Car and Truck are 2 classes implementing it
+   and let's say a Garage class has a repair() method which accepts a Vehicle object as arg then both Car and Truck are passable
+
+iv. Interface Segregation:
+    Larger interfaces should be split into smaller ones.
+    By doing so, we can ensure that implementing classes only need to be concerned about the methods that are of interest to them.
+
+v. Dependency Inversion:
+    The responsibility of providing the component dependencies and wiring object graphs is transferred
+    For eg.
+    Instead of this:
+        public class Computer{
+            private Keyboard keyboard;
+            private Monitor monitor;
+
+            public Computer(){
+                this.keyboard = new LogitechWirelessKeyboard();
+                this.monitor = new Dell27InchMonitor();
+            }
+        }
+        Here we’ve tightly coupled these three classes together.
+    Use this:
+    public class Computer{
+        private Keyboard keyboard;
+        private Monitor monitor;
+
+        public Computer(Keyboard keyboard, Monitor monitor){
+            this.keyboard = keyboard;
+            this.monitor = monitor;
+        }
+    }
+    we’ve the ability to switch out our Keyboard class with a different one should the need arise

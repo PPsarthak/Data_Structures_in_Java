@@ -544,7 +544,7 @@ class Graph {
     //new codes go above ~ maintain 3 spaces
     static List<List<Integer>> adjMat2List(int[][] matrix){
         List<List<Integer>> adj = new ArrayList<>();
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length; i++){
             adj.add(new ArrayList<>());
         }
         for (int i = 0; i < matrix.length; i++) {
@@ -565,9 +565,18 @@ class Graph {
         }
         map.remove(3);
         System.out.println(map);
-        List<Integer> myList = new Vector<>();
+
+        List<Integer> myList = new ArrayList<>();
+        myList.add(1);
+        myList.add(2);
+        myList.add(3);
+        myList.add(4);
+        myList.add(5);
+        myList.remove(2);
+        System.out.println(myList.get(2));
         Set<Integer> set = new HashSet<>();
         String s = "anagram";
+
         StringBuilder sb = new StringBuilder(s);
         StringBuilder sb2 = new StringBuilder("nagaram");
 

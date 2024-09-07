@@ -72,6 +72,27 @@ class Solution{
 
         return 0;
     }
+    int recursive(int index, char[] arr) {
+        // base case
+        if (index <= 0) {
+            return 1;
+        }
+
+        if (arr[index] == '0') return recursive(index - 1, arr);
+
+        // 2615
+        int singleDigit = recursive(index - 1, arr);
+
+        int twoDigit = 0;
+        if (index > 0 &&
+                (arr[index - 1] == '1' ||
+                        (arr[index - 1] == '2' && arr[index] >= '0' && arr[index] <= '6'))) {
+            twoDigit = recursive(index - 2, arr);
+        }
+
+        return singleDigit + twoDigit;
+    }
+
 }
 
 public class LeetCode {
@@ -83,7 +104,9 @@ public class LeetCode {
         String[] garbage = {"G","P","GP","GG"};
         int[] travel = {2,4,3};
 
-        System.out.println(solution.garbageCollection(garbage,travel));
+        String s = "226";
+        char[] arr = s.toCharArray();
+        System.out.println(solution.recursive(arr.length-1, arr));
     }
     private static ListNode getLL(int[] array){
         if (array == null || array.length == 0) {
