@@ -24,42 +24,25 @@ public class PriorityQueues {
 //        System.out.println(maxPQ);
 //        System.out.println("Peeking max heap gives the max " + maxPQ.poll());
 
-        String s = "isawsquirrelnearmysquirrelhouseohmy";
-        String a = "my";
-        String b = "squirrel";
-        int k = 15;
+        PriorityQueue<Node> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.length, o2.length));
+        PriorityQueue<Node> pq2 = new PriorityQueue<>((o1, o2) -> Integer.compare(o2.length, o1.length));
+        Map<String, Node> map = new HashMap<>();
 
-        //sliding window approach
-        for(int i=0; i<s.length()-k; i++){
-            //make window from 0 to k
-            boolean aFlag = false;
-            boolean bFlag = false;
-            for(int j=i; j<k; j++){
-                if(s.startsWith(a,j)) aFlag = true;
-                if(s.startsWith(b,j)) bFlag = true;
-            }
-        }
+        pq.offer(new Node("abcd"));
+        pq.offer(new Node("xyz"));
+
+        System.out.println(pq.peek().string);
+
+        List<Integer> ls = new ArrayList<>(3);
+
     }
-    public List<Integer> beautifulIndices(String s, String a, String b, int k) {
-        List<Integer> ans  = new ArrayList<>();
-        Set<Integer> set = new HashSet<>();
+    static class Node{
+        int length;
+        String string;
 
-        for(int i=0; i<=s.length()-a.length(); i++){
-            if(s.startsWith(a,i)){
-                int lowerBound = Math.max(0, i-k);
-                int upperBound = Math.min(s.length()-b.length(), i+k);
-
-                for(int j=lowerBound; j<=upperBound; j++){
-                    if(s.startsWith(b,j)){
-                        if(!set.contains(i)){
-                            ans.add(i);
-                            set.add(i);
-                        }
-                    }
-                }
-            }
+        public Node(String string) {
+            this.length = string.length();
+            this.string = string;
         }
-
-        return ans;
     }
 }

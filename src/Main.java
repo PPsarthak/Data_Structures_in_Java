@@ -1,5 +1,8 @@
-import com.dataStructures.SLL;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +15,13 @@ public class Main {
         for(char c : s.toCharArray()){
             ans.add(String.valueOf(c));
         }
-        Stack<Integer> st = new Stack<>();
+
+        LocalDate start = LocalDate.of(2024,1,17);
+        LocalDate end = LocalDate.of(2024,1,24);
+        Set<LocalDate> dates = Stream.iterate(start, date -> date.plusDays(1))
+                .limit(ChronoUnit.DAYS.between(start, end))
+                .collect(Collectors.toSet());
+        System.out.println(dates);
     }
 
     static void add(int a, int b){

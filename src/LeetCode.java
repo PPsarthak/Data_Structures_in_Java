@@ -96,45 +96,43 @@ class Solution{
 }
 
 public class LeetCode {
+    static int n;
+    static int m;
+    static int[][] arr;
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int[] llArr = {1,2,3,4,5};
-        ListNode head = getLL(llArr);
-
-        String[] garbage = {"G","P","GP","GG"};
-        int[] travel = {2,4,3};
-
-        String s = "226";
-        char[] arr = s.toCharArray();
-        System.out.println(solution.recursive(arr.length-1, arr));
+        int[][] grid = {{3,2,4},{2,1,9},{1,1,7}};
+        System.out.println(maxMoves(grid));
     }
-    private static ListNode getLL(int[] array){
-        if (array == null || array.length == 0) {
-            return null;
+
+    public static int maxMoves(int[][] grid) {
+        n = grid.length;
+        m = grid[0].length;
+        arr = grid;
+
+        int ans = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                ans = Math.max(ans, get(i, j, -1));
+            }
         }
 
-        ListNode head = new ListNode(array[0]);
-        ListNode current = head;
-
-        for (int i = 1; i < array.length; i++) {
-            ListNode newNode = new ListNode(array[i]);
-            current.next = newNode;
-            current = newNode;
-        }
-
-        return head;
+        return ans;
     }
-    private static void printLL(ListNode head){
-        if(head == null){
-            System.out.println("Empty list");
-            return;
+    static int get(int i, int j, int prev){
+        if(i<0 || j<0 || i>=n || j>=m || arr[i][j] <= prev){
+            System.out.println("Re: " + i + " " + j);
+            return 0;
         }
-        System.out.print("The Linked List is: ");
-        ListNode temp = head;
-        while(temp!=null && temp.next!=null){
-            System.out.print(temp.val + "->");
-            temp = temp.next;
-        }
-        System.out.println(temp.val);
+
+        int up = get(i-1, j+1, arr[i][j]);
+        int str = get(i, j+1, arr[i][j]);
+        int down = get(i+1, j+1, arr[i][j]);
+
+        System.out.println("s" + str + " u " + up + " do " + down);
+
+        int maxMoves = 1+Math.max(str, Math.max(up, down));
+        return maxMoves;
     }
 }
